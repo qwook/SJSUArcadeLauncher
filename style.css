@@ -100,6 +100,16 @@ body
     left: 85%;
 }
 
+.gameshow.left.hidden
+{
+    left: -200%;
+}
+
+.gameshow.right.hidden
+{
+    left: 100%;
+}
+
 .gameshow.left, .gameshow.right
 {
     -webkit-transform: scale(0.8, 0.8);
@@ -220,7 +230,8 @@ footer .content
 #qr
 {
     margin-top: 0;
-    vertical-align: -10;
+    margin-right: 20px;
+    vertical-align: -15;
     float: none;
     height: 70%;
 }
