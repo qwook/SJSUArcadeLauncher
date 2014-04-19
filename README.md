@@ -2,8 +2,8 @@
 An arcade launcher, similiar to the Winnitron launcher, but open source and released under the MIT license.
 
 ## Dependencies
-[http://nodejs.org](nodejs v0.10.*)
-[https://github.com/rogerwang/node-webkit](node-webkit v0.9.*)
+[nodejs v0.10.*](http://nodejs.org)  
+[node-webkit v0.9.*](https://github.com/rogerwang/node-webkit)  
 
 ## Installation
 Run `npm install` to install node dependencies.
