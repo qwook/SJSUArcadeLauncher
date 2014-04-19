@@ -1,3 +1,5 @@
+// Arcade Frontend
+
 // a - 65, d - 68, w - 87, s - 83
 // up - 38, down - 40, left - 37, right - 39
 
@@ -33,15 +35,42 @@ function moveRight() {
     }
 }
 
+var launchGameCb;
+function launchGame() {
+    launchGameCb ? launchGameCb() : null;
+    $("#games").addClass("loading")
+}
+
+function reset() {
+    $("#games").removeClass("loading")
+}
+
+function insertGame() {
+
+}
+
+function setLaunchGameCallback(cb) {
+    launchGameCb = cb
+}
+
 $(window).keydown(function(e) {
     switch (e.keyCode) {
         case 65:
         case 37:
-        moveRight();
-        break;
+            moveLeft();
+            break;
         case 68:
         case 39:
-        moveLeft();
-        break;
+            moveRight();
+            break;
+        case 13:
+            launchGame();
+            break;
+        case 32:
+            reset();
+            break;
+        default:
+            console.log(e.keyCode)
+            break;
     }
 });
