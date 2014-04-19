@@ -1,25 +1,61 @@
 <html>
     <head>
         <title>test</title>
-        <script>
-            var fs = require('fs');
-
-        </script>
         <link rel="stylesheet" href="style.css" />
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic|Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic|Roboto:400,400italic,500,100,100italic,300,300italic,700italic,700,500italic,900,900italic|Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,800,700,600|Oswald:300|Varela+Round|Montserrat' rel='stylesheet' type='text/css'>
     </head>
     <body>
         <div id="wrapper">
-            <header>
-                <img src="./logo.png" />
-            </header>
-            <div id="gameshow">
-                <img class="screenshot" src="http://placehold.it/200x200" />
-                <p>test should be here.</p>
+            <div id="games">
+                <div class="gameshow left">
+                    <div class="screenshot" style="background-image: url(http://placehold.it/200x200)">
+                    </div>
+                    <div class="caption">
+                        <div class="caption-left">
+                            <h1>Bako Simulator 2000</h1>
+                            <p class="authors">The Munchie Gang, A Will and Hen Joint</p>
+                        </div>
+                        <div class="caption-right">
+                            <p class="description">Your mission is to destroy the shapes. Use your guns and yourself to eradicate them.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gameshow left">
+                    <div class="screenshot" style="background-image: url(http://placehold.it/200x200)">
+                    </div>
+                    <div class="caption">
+                        <div class="caption-left">
+                            <h1>Bako Simulator 2000</h1>
+                            <p class="authors">The Munchie Gang, A Will and Hen Joint</p>
+                        </div>
+                        <div class="caption-right">
+                            <p class="description">It's not your typical graveyard shift... With her last job up in flames, a determined Silvia finds new work in the late hours, cleaning the offices of the Bagox Corp. Armed with a variety of tools at your disposal, you help Sylvia locate and clean as many messes on each floor as time permits. But strange and disturbing monsters of mysterious intents and origins will stop you at every step. Use your trusty mop, spray, and vaccum to fight off foes, force your way to the elevators, and make those monsters clock out for good!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="gameshow featured">
+                    <div class="screenshot" style="background-image: url(http://placehold.it/200x200)">
+                    </div>
+                    <div class="caption">
+                        <div class="caption-left">
+                            <h1>Bako Simulator 2000</h1>
+                            <p class="authors">The Munchie Gang, A Will and Hen Joint</p>
+                        </div>
+                        <div class="caption-right">
+                            <p class="description">Somehow, don't ask me how, you managed to get yourself stuck in an arcade cabinet. Now you must beat all of it's games in order to escape. Have fun!</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <ul id="gamelist">
-                <li>
-                </li>
-            </ul>
         </div>
+        <footer>
+            <div class="content">
+                <p>All games were created by members of the San Jose State University Game Dev Club. http://sjsugamedev.com/join</p>
+                <img id="qr" src="./gamedevqr.svg">
+                <img src="./logo.png" />
+            </div>
+        </footer>
     </body>
+    <script src="./jquery-1.11.0.js"></script>
+    <script src="./arcade.js"></script>
 </html>
