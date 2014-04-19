@@ -1,13 +1,16 @@
 {
-    "name": "nw-demo",
-    "main": "index.html",
-    "window": {
-        "title": "node-webkit demo",
-        "icon": "link.png",
-        "toolbar": false,
-        "frame": false,
-        // "show_in_taskbar": false,
-        "fullscreen": true,
-        "always-on-top": true
-    }
+  "name": "nw-demo",
+  "main": "index.html",
+  "dependencies": {
+    "strip-json-comments": "~0.1.1"
+  },
+  "window": {
+    "title": "node-webkit demo",
+    "icon": "link.png",
+    "toolbar": false,
+    "frame": false,
+    "always-on-top": true
+    // "show_in_taskbar": false,
+    // "fullscreen": true,
+  }
 }
