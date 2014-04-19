@@ -1,0 +1,13 @@
+{
+    "name": "nw-demo",
+    "main": "index.html",
+    "window": {
+        "title": "node-webkit demo",
+        "icon": "link.png",
+        "toolbar": false,
+        "frame": false,
+        // "show_in_taskbar": false,
+        "fullscreen": true,
+        "always-on-top": true
+    }
+}

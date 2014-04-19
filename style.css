@@ -1,0 +1,56 @@
+body
+{
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    padding: 0;
+    margin: 0;
+
+    /* Basic Background and Color */
+    background: #111;
+    color: #666;
+
+    /* Disabled text selection */
+    -webkit-user-select: none;
+}
+#wrapper
+{
+
+    /* Basic Background and Color */
+    background: #222;
+    color: #fff;
+
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    box-shadow: 0px 20px 50px -20px rgba(30, 30, 30, 1);
+}
+header
+{
+    /* Basic Background and Color */
+    background: rgb(50, 70, 130);
+    color: #fff;
+
+    padding: 20px 20px;
+    /*box-shadow: 0 0px 10px rgba(0, 0, 0, 0.25);*/
+}
+
+header h1
+{
+    font-weight: 100;
+}
+
+#gameshow
+{
+    /*padding: 40px;*/
+}
+
+#gameshow .screenshot
+{
+    /*border-radius: 6px;*/
+    /*background: rgb(230, 230, 230);*/
+    /*border: 1px solid #ccc;*/
+    padding: 0px;
+
+    /*box-shadow: 0 0px 3px rgba(50, 50, 50, 0.25);*/
+}
