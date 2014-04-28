@@ -1,0 +1,16 @@
+{
+	"presetList" :
+	[
+		{ "presetName" : "Fighting", "gameList" : [ "MystikCavalry", "dontBlowUpX" ] },
+		{ "presetName" : "Puzzle", "gameList" : [ "bako" ] },
+		{ "presetName" : "Arcade", "gameList" : [ "prismicShift" ] }
+	],
+	
+	"gameList" :
+	[
+		{ "gameId" : "MystikCavalry", "folderPath" : "games/mystik_cavalry/", "gitRepo" : "http://unused/at/the/moment" },
+		{ "gameId" : "bako", "folderPath" : "games/bako/", "gitRepo" : "http://unused/at/the/moment" },
+		{ "gameId" : "dontBlowUpX", "folderPath" : "games/dontblowupx/", "gitRepo" : "http://unused/at/the/moment" },
+		{ "gameId" : "prismicShift", "folderPath" : "games/prismic_shift/", "gitRepo" : "http://unused/at/the/moment" }
+	]
+}
