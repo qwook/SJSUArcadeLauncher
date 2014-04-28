@@ -3,13 +3,18 @@
 // this file will exit with an error if it runs in the browser
 var fs = require("fs"),
     path = require("path"),
-    stripJSON = require("strip-json-comments");
+    stripJSON = require("strip-json-comments")
+    gui = require('nw.gui'),
+    cp = require('child_process'),
+    Monitor = require('./monitor.js');
+
+var win = gui.Window.get();
 
 $("#games").html(""); // clear the games for backend
 
 // Try to find the config.json file!
-var CONFIG_PATH = path.join(process.execPath, "config.json");
-var CONFIG_PATH_DEV = path.join(process.cwd(), "config.json");
+var CONFIG_PATH = path.join(path.dirname(process.execPath), "launcherConfig.json");
+var CONFIG_PATH_DEV = path.join(process.cwd(), "launcherConfig.json");
 
 // The working directory should be the directory
 // the config.json file is in.
@@ -18,7 +23,7 @@ var WORKING_DIRECTORY;
 var configStr;
 if (fs.existsSync(CONFIG_PATH)) {
     configStr = fs.readFileSync(CONFIG_PATH, {encoding: "utf8"});
-    WORKING_DIRECTORY = process.execPath;
+    WORKING_DIRECTORY = path.dirname(process.execPath);
 } else if (fs.existsSync(CONFIG_PATH_DEV)) {
     configStr = fs.readFileSync(CONFIG_PATH_DEV, {encoding: "utf8"});
     WORKING_DIRECTORY = process.cwd();
@@ -28,12 +33,22 @@ if (fs.existsSync(CONFIG_PATH)) {
 
 var config = JSON.parse(stripJSON(configStr));
 
-insertGame({});
-insertGame({});
-insertGame({});
-insertGame({
-    "screenshot": "http://globalgamejam.org/sites/default/files/styles/game_content__normal/public/games/screenshots/screenshot_2014-01-26_16.27.03.png?itok=h6D-8YiZ"
-});
+// load games in config file
+for (id in config.gameList)
+{
+    var game = config.gameList[id];
+
+    var gameInfoStr = fs.readFileSync(path.join(WORKING_DIRECTORY, game.folderPath, "gameInfo.json"), {encoding: "utf8"});
+    var gameInfo = JSON.parse(stripJSON(gameInfoStr));
+
+    insertGame({
+        "name": gameInfo.gameName,
+        "authors": [gameInfo.gameAuthors],
+        "description": gameInfo.gameDescription,
+        "screenshot": "file:///" + path.join(WORKING_DIRECTORY, game.folderPath, gameInfo.screenshotName).replace(/\\/gm, "/"),
+        "data": { "path": game.folderPath, "exe": gameInfo.executablePath }
+    });
+}
 
 insertGame(
     {
@@ -44,3 +59,24 @@ insertGame(
     }
 );
 
+setLaunchGameCallback(function(data) {
+    cp.exec(path.join(WORKING_DIRECTORY, data.path, data.exe));
+    setTimeout(function() {
+        console.log(data.exe);
+        var monitor = new Monitor(data.exe);
+        monitor.setCallbacks(
+            // on game loading (every tick)
+            function() {
+            },
+            // on game loaded
+            function() {
+                win.minimize();
+            },
+            // on game closed
+            function () {
+                reset();
+                win.focus();
+            }
+        )
+    }, 1000);
+})

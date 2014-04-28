@@ -9,8 +9,12 @@ function hideOthers() {
     .first().removeClass("hidden")
 }
 
+var launching = false;
+
 // slide gameshows to the left
 function moveLeft() {
+    if (launching) { return; }
+
     var left = $('.gameshow.left').last()
     // if there is any games on the left
     if (left[0]) {
@@ -29,6 +33,8 @@ function moveLeft() {
 
 // slide gameshows to right
 function moveRight() {
+    if (launching) { return; }
+
     var right = $('.gameshow.right').first()
     // if there is any games on the left
     if (right[0]) {
@@ -47,12 +53,16 @@ function moveRight() {
 
 var launchGameCb;
 function launchGame() {
-    launchGameCb ? launchGameCb() : null;
+    if (launching) { return; }
+    
+    launchGameCb ? launchGameCb($(".gameshow.featured").data()) : null;
     $("#games").addClass("loading")
+    launching = true;
 }
 
 function reset() {
     $("#games").removeClass("loading")
+    launching = false;
 }
 
 function insertGame(data) {
@@ -88,9 +98,9 @@ function insertGame(data) {
 
     $(".authors", gameshow).text((data.authors || []).join(", "));
 
-    console.log((data.authors || []).join(", "))
-
     $("#games").append(gameshow);
+
+    gameshow.data(data.data);
 
     hideOthers();
 }
@@ -110,12 +120,27 @@ $(window).keydown(function(e) {
             moveRight();
             break;
         case 13:
+        case 49:
+        case 50:
+        case 70:
+        case 71:
+        case 72:
+        case 67:
+        case 86:
+        case 66:
+        case 75:
+        case 76:
+        case 59:
+        case 188:
+        case 190:
+        case 191:
             launchGame();
             break;
         case 32:
             reset();
             break;
         default:
+            console.log(e)
             console.log(e.keyCode)
             break;
     }

@@ -3,10 +3,17 @@ An arcade launcher, similiar to the Winnitron launcher, but open source and rele
 
 ## Dependencies
 [nodejs v0.10.*](http://nodejs.org)  
-[node-webkit v0.9.*](https://github.com/rogerwang/node-webkit)  
+[node-webkit v0.8.4](https://github.com/rogerwang/node-webkit)  
+Python 2.7 (For dependency compiling)  
 
 ## Installation
 Run `npm install` to install node dependencies.
+
+For FFI to work, you need to download nw-gyp using `npm install -g nw-gyp`  
+Then call `nw-gyp clean configure build --target=0.8.4` on the folders:  
+`node_modules/ffi/` and `/node_modules/ffi/node_modules/ref/`  
+
+*todo: make a file that automates this process*
 
 ## Binaries
 *Coming soon*
