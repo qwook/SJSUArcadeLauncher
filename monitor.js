@@ -1,18 +1,25 @@
-
-console.log("poop")
+/**
+ * ArcadeBoy by Henry Tran (MIT) 2014
+ *
+ * monitor.js
+ * ----------
+ * Accesses system functions
+ * and monitors window states.
+ */
 
 var FFI = require('ffi')
-console.log("1")
-    ref = require('ref')
-console.log("2")
-    StructType = require('ref-struct')
-console.log("3")
-    ArrayType = require('ref-array')
-console.log("4")
-    async = require('async');
+,   ref = require('ref')
+,   StructType = require('ref-struct')
+,   ArrayType = require('ref-array')
+,   async = require('async')
+;
 
-console.log("shit")
+// Just Ctrl-F your way to the Monitor definition.
+// There really isn't anything interesting or human-readable
+// until the Monitor class definition.
 
+
+// Define constants and libraries to load.
 var MAX_PATH = 0x00000104;
 var TH32CS_SNAPPROCESS = 0x00000002;
 var FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x00000100;
@@ -68,6 +75,10 @@ function TEXT(text){
    return new Buffer(text, 'ucs2').toString('binary');
 }
 
+/**
+ * User32.dll
+ * @type {FFI}
+ */
 var user32 = new FFI.Library('user32', {
     'MessageBoxW': [
         'int32', [ 'int32', 'string', 'string', 'int32' ]
@@ -120,6 +131,10 @@ var user32 = new FFI.Library('user32', {
 });
 
 
+/**
+ * Kernel32.dll
+ * @type {FFI}
+ */
 var kernel32 = new FFI.Library('kernel32', {
     'CreateToolhelp32Snapshot': [
         HANDLE, [ 'uint32', 'uint32' ]
@@ -162,12 +177,23 @@ var msvcrt = new FFI.Library('msvcrt', {
 	]
 });
 
+function MAKELANGID(p, s) { return (s << 10) | p }
+
+/**
+ * Get the dimensions of the main monitor.
+ * @return {Object} width and height of the screen
+ */
 function getScreenSize() {
 	var width = user32.GetSystemMetrics(SM_CXSCREEN);
 	var height = user32.GetSystemMetrics(SM_CYSCREEN);
 	return {width: width, height: height};
 }
 
+/**
+ * Get the dimension of a window from it's handle
+ * @param  {Handle} hWnd the handle
+ * @return {Object} width and height of the screen.
+ */
 function getWindowSize(hWnd) {
 	var rect = new RECT();
 	user32.GetWindowRect(hWnd, rect.ref());
@@ -175,6 +201,46 @@ function getWindowSize(hWnd) {
 	return {width: rect.right - rect.left, height: rect.bottom - rect.top}
 }
 
+/**
+ * Print the last system error
+ */
+function printLastError() {
+    var dw = kernel32.GetLastError();
+
+    var strptr = ref.alloc('pointer');
+    kernel32.FormatMessageW(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        null,
+        dw,
+        0x01,
+        strptr,
+        0,
+        null
+    );
+
+    var message = ref.reinterpretUntilZeros(new Buffer(strptr, 'utf8'), 1).toString();
+    console.log(message);
+}
+
+/**
+ * Check to see if the process is still running.
+ * @param  {[type]}  handle [description]
+ * @return {Boolean}        if the process is still running
+ */
+function isProcessRunning(handle) {
+    var exitCode = ref.alloc(DWORD);
+    if (!kernel32.GetExitCodeProcess(handle, exitCode))
+        printLastError();
+
+    return exitCode.deref() == 259;
+}
+
+/**
+ * Monitor class
+ * @param {String} exename Name of the executable to monitor.
+ */
 function Monitor(exename) {
 	this.exename = exename;
 	this.running = true;
@@ -193,10 +259,13 @@ function Monitor(exename) {
 
 	this.once = false
 
+    // Define the callbacks
 	this.cbLoading = function() {}
 	this.cbFound = function() {}
 	this.cbClosed = function() {}
 
+    // Make sure to keep this monitor running asynchroniously.
+    // This will allow us to run other classes as coroutines.
 	async.whilst(
 		function() { return this.running; }.bind(this),
 		function(cb) {
@@ -212,66 +281,64 @@ function Monitor(exename) {
 	);
 }
 
-function MAKELANGID(p, s) { return (s << 10) | p }
-
-function printLastError() {
-	var dw = kernel32.GetLastError();
-
-	console.log(dw);
-
-	var strptr = ref.alloc('pointer');
-	kernel32.FormatMessageW(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        null,
-        dw,
-        0x01,
-        strptr,
-        0,
-        null
-	);
-
-    var message = ref.reinterpretUntilZeros(new Buffer(strptr, 'utf8'), 1).toString();
-	console.log(message);
+/**
+ * Kill this monitor
+ */
+Monitor.prototype.kill = function() {
+    this.running = false;
 }
 
-function isProcessRunning(handle) {
-	var exitCode = ref.alloc(DWORD);
-	if (!kernel32.GetExitCodeProcess(handle, exitCode))
-		printLastError();
-
-	return exitCode.deref() == 259;
+/**
+ * Set the callbacks for this monitor
+ * @param {Function} loadingCallback called when game is loading
+ * @param {Function} foundCallback   called when the process is loaded
+ * @param {Function} closedCallback  called when process is closed
+ */
+Monitor.prototype.setCallbacks = function(loadingCallback, foundCallback, closedCallback) {
+    this.cbLoading = loadingCallback;
+    this.cbFound = foundCallback;
+    this.cbClosed = closedCallback;
 }
 
+/**
+ * The brain of the monitor, this is called every second.
+ */
 Monitor.prototype.tick = function() {
 
-	if (!this.foundProcess) {
-		// try to find the processID with a given exe
+    // Primitive state machine
 
+	if (!this.foundProcess) {
+	// step 1. we haven't found the process yet
+    // dedicate each tick to finding the process.
+
+        // call our callback
 		this.cbLoading();
 
+        // create a snapshot of all processes
 	    var snapshot = kernel32.CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	    var entry = new PROCESSENTRY32();
 
+        // Loop through all the processes in our snapshot
 	    var bool = kernel32.Process32First(snapshot, entry.ref());
-
 	    do {
 	        var szExeFile = ref.reinterpretUntilZeros(new Buffer(entry.szExeFile), 1).toString();
 
+            // Do the file names match? notepad.exe == notepad.exe?
 	        if (szExeFile.toLowerCase() === this.exename.toLowerCase()) {
 	        	this.processid = entry.th32ProcessID;
 	        	this.handle = kernel32.OpenProcess(0x0001 | 0x0800 | 0x1000, true, this.processid);
 	        	this.foundProcess = true;
 	        }
-
 	        bool = kernel32.Process32Next(snapshot, entry.ref());
 		} while (bool);
 
+        // Clean up
 	    kernel32.CloseHandle(snapshot);
 	} else if (!this.foundhWnd && isProcessRunning(this.handle)) {
-		// try to find the window handle with the processID
+	// step 2. so we found the process,
+    // now we need to find the window that goes with the process.
 
+        // take a snapshot of ALL windows visible
 		var hWnds = [];
 		var enumCb = FFI.Callback('bool', [HWND, LPARAM], function(hWnd, lParam) {
 			hWnds.push(hWnd);
@@ -279,19 +346,25 @@ Monitor.prototype.tick = function() {
 		}.bind(this));
 		user32.EnumWindows(enumCb, 0);
 
+        // iterate through the snapshot of all windows
 		for (i in hWnds) {
 			var hWnd = hWnds[i];
 
+            // Make sure it's a window and we can see it
 			if (user32.IsWindow(hWnd) && user32.IsWindowVisible(hWnd)) {
+
+                // grab the process id of the window
 				var processId = ref.alloc(DWORD);
 				var threadId = user32.GetWindowThreadProcessId(hWnd, processId);
-
 				processId = ref.deref(processId);
 
+                // okay, we've found a window with a matching process!
 				if (processId == this.processid && !this.foundhWnd) {
 					var size = getWindowSize(hWnd);
 					var screensize = getScreenSize();
 
+                    // the size of the window is the same as the screen! jackpot!
+                    // the window must be fullscreen!
 					if (screensize.width == size.width && screensize.height == size.height) {
 						this.foundhWnd = true;
 						this.threadId = threadId;
@@ -303,22 +376,26 @@ Monitor.prototype.tick = function() {
 			}
 		}
 	} else if (user32.IsWindow(this.hWnd) && isProcessRunning(this.handle)) {
+    // step 3. we've found the window, and it is up and running!
 
+        // attach to the foreground window (this ensures that
+        // we have permission to bring windows into focus)
 		var fgProcessId = ref.alloc(DWORD);
 		var fgThreadId = user32.GetWindowThreadProcessId(user32.GetForegroundWindow(), fgProcessId);
-		// first, attach our thread to the thread in the foreground.
 		user32.AttachThreadInput(this.processThreadId, fgThreadId, true);
 		user32.AttachThreadInput(this.threadId, this.processThreadId, true);
-		
-		// check if the window is in focus
+
+		// check if our window is in focus
 		// if it isn't, then bring it to focus
 		if (user32.GetForegroundWindow() != this.hWnd) {
-			user32.ShowWindow(this.hWnd, 0)
-			user32.ShowWindow(this.hWnd, 9)
+			user32.ShowWindow(this.hWnd, 0) // hide
+			user32.ShowWindow(this.hWnd, 9) // show
+            // ^^ (I know, it's hacky.)
 			user32.SetActiveWindow(this.hWnd);
 			user32.SetForegroundWindow(this.hWnd);
 			user32.SetFocus(this.hWnd);
 
+            // ping the window to check if it's responding
 			var result = ref.alloc('pointer');
 			var hung = user32.SendMessageTimeoutW(
 				this.hWnd,
@@ -337,12 +414,14 @@ Monitor.prototype.tick = function() {
 			}
 		}
 
-		// remove all attachments
+		// remove all attachments to the foreground window
+        // (we don't need it until next tick)
 		user32.AttachThreadInput(this.threadId, this.processThreadId, false);
 		user32.AttachThreadInput(this.processThreadId, fgThreadId, false);
-		
+
 	} else if (!isProcessRunning(this.handle)) {
-		
+    // step 4. process is closed! kill everything!
+
 		kernel32.CloseHandle(this.handle);
 
 		// the window is no longer open
@@ -356,16 +435,6 @@ Monitor.prototype.tick = function() {
 		this.cbClosed();
 	}
 
-}
-
-Monitor.prototype.kill = function() {
-	this.running = false;
-}
-
-Monitor.prototype.setCallbacks = function(loadingCallback, foundCallback, closedCallback) {
-	this.cbLoading = loadingCallback;
-	this.cbFound = foundCallback;
-	this.cbClosed = closedCallback;
 }
 
 module.exports = Monitor;

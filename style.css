@@ -69,6 +69,9 @@ body
 /* Gameshow */
 .gameshow
 {
+    /* Category padding */
+    top: 20px;
+
     /* Basic Background and Color */
     background: #222;
     color: #fff;
@@ -134,13 +137,13 @@ body
     background-position: center;
 
     width: 100%;
-    height: 60%;
+    height: 80%;
 }
 
 .gameshow .caption
 {
     position: absolute;
-    top: 60%;
+    top: 80%;
     width: 100%;
     opacity: 1;
 }
@@ -227,6 +230,30 @@ footer .content
 {
     width: 80%;
     margin: 0 auto;
+}
+
+#category
+{
+    font-family: 'Montserrat';
+    font-weight: 900;
+    position: absolute;
+    top: -55px;
+    left: 0;
+    right: 0;
+    padding: 60px 0px 10px 0px;
+    color: white;
+    text-align: center;
+    background: red;
+    font-size: 1.5em;
+    z-index: 10000;
+    border-radius: 50px;
+    text-transform: uppercase;
+    background: -webkit-linear-gradient(top, #ff3232 0%,#ff3030 90%,rgb(150, 0, 0) 100%); /* Chrome10+,Safari5.1+ */
+}
+
+#category.hidden
+{
+    display: none;
 }
 
 #qr

@@ -1,12 +1,31 @@
+/**
+ * ArcadeBoy by Henry Tran (MIT) 2014
+ *
+ * backend.js
+ * ----------
+ * Logic for the arcade backend.
+ * This involves reading config files,
+ * running system commands,
+ * executing processes,
+ * and deploying launchers.
+ */
+
+// Check if we're on windows
+var has_windows = /^win/.test(process.platform);
 
 // using the require() function will break in browsers
 // this file will exit with an error if it runs in the browser
-var fs = require("fs"),
-    path = require("path"),
-    stripJSON = require("strip-json-comments")
-    gui = require('nw.gui'),
-    cp = require('child_process'),
-    Monitor = require('./monitor.js');
+var fs = require("fs")
+,   path = require("path")
+,   stripJSON = require("strip-json-comments")
+,   gui = require('nw.gui')
+,   cp = require('child_process')
+
+
+var Monitor;
+if (has_windows) {
+    Monitor = require('./monitor.js')
+}
 
 var win = gui.Window.get();
 
@@ -32,51 +51,86 @@ if (fs.existsSync(CONFIG_PATH)) {
 }
 
 var config = JSON.parse(stripJSON(configStr));
+var preset = -1;
 
-// load games in config file
-for (id in config.gameList)
-{
-    var game = config.gameList[id];
+function loadAllGames() {
+    // load games in config file
+    for (id in config.gameList)
+    {
+        var game = config.gameList[id];
 
-    var gameInfoStr = fs.readFileSync(path.join(WORKING_DIRECTORY, game.folderPath, "gameInfo.json"), {encoding: "utf8"});
-    var gameInfo = JSON.parse(stripJSON(gameInfoStr));
+        var gameInfoStr = fs.readFileSync(path.join(WORKING_DIRECTORY, game.folderPath, "gameInfo.json"), {encoding: "utf8"});
+        var gameInfo = JSON.parse(stripJSON(gameInfoStr));
 
-    insertGame({
-        "name": gameInfo.gameName,
-        "authors": [gameInfo.gameAuthors],
-        "description": gameInfo.gameDescription,
-        "screenshot": "file:///" + path.join(WORKING_DIRECTORY, game.folderPath, gameInfo.screenshotName).replace(/\\/gm, "/"),
-        "data": { "path": game.folderPath, "exe": gameInfo.executablePath }
-    });
+        insertGame({
+            "name": gameInfo.gameName,
+            "authors": [gameInfo.gameAuthors],
+            "description": gameInfo.gameDescription,
+            "screenshot": "file:///" + path.join(WORKING_DIRECTORY, game.folderPath, gameInfo.screenshotName).replace(/\\/gm, "/"),
+            "data": { "path": game.folderPath, "exe": gameInfo.executablePath }
+        });
+    }
 }
 
-insertGame(
-    {
-        "name": "Test Game",
-        "authors": ["Test Person", "Test Person2", "John Smith", "Jane Doe"],
-        "description": "This is a test description blah blah hi there!",
-        "screenshot": "http://placehold.it/640x480"
-    }
-);
+function loadPresetGame(id) {
+    var allowed = config.presetList[id].gameList;
 
-setLaunchGameCallback(function(data) {
-    cp.exec(path.join(WORKING_DIRECTORY, data.path, data.exe));
-    setTimeout(function() {
-        console.log(data.exe);
-        var monitor = new Monitor(data.exe);
-        monitor.setCallbacks(
-            // on game loading (every tick)
-            function() {
-            },
-            // on game loaded
-            function() {
-                win.minimize();
-            },
-            // on game closed
-            function () {
-                reset();
-                win.focus();
-            }
-        )
-    }, 1000);
+    // load games in config file
+    for (id in config.gameList)
+    {
+        var game = config.gameList[id];
+
+        // filter by allowed
+        if (allowed.indexOf(game.gameId) == -1) { continue; }
+
+        var gameInfoStr = fs.readFileSync(path.join(WORKING_DIRECTORY, game.folderPath, "gameInfo.json"), {encoding: "utf8"});
+        var gameInfo = JSON.parse(stripJSON(gameInfoStr));
+
+        insertGame({
+            "name": gameInfo.gameName,
+            "authors": [gameInfo.gameAuthors],
+            "description": gameInfo.gameDescription,
+            "screenshot": "file:///" + path.join(WORKING_DIRECTORY, game.folderPath, gameInfo.screenshotName).replace(/\\/gm, "/"),
+            "data": { "path": game.folderPath, "exe": gameInfo.executablePath }
+        });
+    }
+}
+
+setPresetCallback(function() {
+    preset = (preset + 1) % (config.presetList.length + 1);
+    clearGames();
+
+    if (preset == config.presetList.length) {
+        setCategory();
+        loadAllGames();
+    } else {
+        setCategory(config.presetList[preset].presetName);
+        loadPresetGame(preset);
+    }
 })
+
+if (has_windows) {
+    setLaunchGameCallback(function(data) {
+        cp.exec(path.join(WORKING_DIRECTORY, data.path, data.exe));
+        setTimeout(function() {
+            console.log(data.exe);
+            var monitor = new Monitor(data.exe);
+            monitor.setCallbacks(
+                // on game loading (every tick)
+                function() {
+                },
+                // on game loaded
+                function() {
+                    win.minimize();
+                },
+                // on game closed
+                function () {
+                    reset();
+                    win.focus();
+                }
+            )
+        }, 1000);
+    })
+}
+
+loadAllGames();
