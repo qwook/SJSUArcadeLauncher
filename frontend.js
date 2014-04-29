@@ -1,13 +1,11 @@
-// Arcade Frontend
-
-// hide other 'gameshows'
-function hideOthers() {
-    $('.gameshow.left').addClass("hidden")
-    .last().removeClass("hidden")
-
-    $('.gameshow.right').addClass("hidden")
-    .first().removeClass("hidden")
-}
+/**
+ * ArcadeBoy by Henry Tran (MIT) 2014
+ *
+ * frontend.js
+ * -----------
+ * Logic for the arcade display.
+ * This involves animations and input.
+ */
 
 var launching = false;
 
@@ -51,13 +49,38 @@ function moveRight() {
     hideOthers();
 }
 
+function setCategory(name) {
+    if (!name || name.length == 0) {
+        $("#category")
+            .addClass("hidden");
+    } else {
+        $("#category")
+            .text(name)
+            .removeClass("hidden");
+    }
+}
+
+// hide other 'gameshows'
+function hideOthers() {
+    $('.gameshow.left').addClass("hidden")
+    .last().removeClass("hidden")
+
+    $('.gameshow.right').addClass("hidden")
+    .first().removeClass("hidden")
+}
+
 var launchGameCb;
 function launchGame() {
     if (launching) { return; }
-    
+
     launchGameCb ? launchGameCb($(".gameshow.featured").data()) : null;
     $("#games").addClass("loading")
     launching = true;
+}
+
+var presetCb;
+function presetChange() {
+    presetCb();
 }
 
 function reset() {
@@ -105,8 +128,16 @@ function insertGame(data) {
     hideOthers();
 }
 
+function clearGames() {
+    $("#games").html("");
+}
+
 function setLaunchGameCallback(cb) {
     launchGameCb = cb
+}
+
+function setPresetCallback(cb) {
+    presetCb = cb;
 }
 
 $(window).keydown(function(e) {
@@ -138,6 +169,9 @@ $(window).keydown(function(e) {
             break;
         case 32:
             reset();
+            break;
+        case 90:
+            presetChange();
             break;
         default:
             console.log(e)
