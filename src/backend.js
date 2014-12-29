@@ -22,9 +22,9 @@ var fs = require("fs")
 ,   cp = require('child_process')
 
 
-var Monitor;
+// var Monitor;
 if (has_windows) {
-    Monitor = require('./monitor.js')
+    // Monitor = require('./monitor.js')
 }
 
 var win = gui.Window.get();
@@ -114,21 +114,21 @@ if (has_windows) {
         cp.exec(path.join(WORKING_DIRECTORY, data.path, data.exe));
         setTimeout(function() {
             console.log(data.exe);
-            var monitor = new Monitor(data.exe);
-            monitor.setCallbacks(
-                // on game loading (every tick)
-                function() {
-                },
-                // on game loaded
-                function() {
-                    win.minimize();
-                },
-                // on game closed
-                function () {
-                    reset();
-                    win.focus();
-                }
-            )
+            // var monitor = new Monitor(data.exe);
+            // monitor.setCallbacks(
+            //     // on game loading (every tick)
+            //     function() {
+            //     },
+            //     // on game loaded
+            //     function() {
+            //         win.minimize();
+            //     },
+            //     // on game closed
+            //     function () {
+            //         reset();
+            //         win.focus();
+            //     }
+            // )
         }, 1000);
     })
 }
