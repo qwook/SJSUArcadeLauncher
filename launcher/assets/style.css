@@ -1,0 +1,277 @@
+/*
+    ArcadeBoy Theme by Henry Tran
+*/
+
+body
+{
+    font-family: 'Open Sans', 'Arial', sans-serif;
+    padding: 0;
+    margin: 0;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    cursor: none;
+
+    overflow: hidden;
+
+    /* Basic Background and Color */
+    background: #1c1c1c;
+    color: #666;
+
+    /* Disabled text selection */
+    -webkit-user-select: none;
+}
+
+/* Games List */
+#games
+{
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 40px;
+    bottom: 160px;
+}
+
+.loading #games
+{
+    transition: top 1s, bottom 1s;
+
+    top: 0;
+    bottom: 0;
+}
+
+/* Animations */
+.loading #games .gameshow
+{
+    transition: left 0.25s, -webkit-transform 0.25s, width 1s;
+}
+
+.gameshow
+{
+    transition: left 0.25s, -webkit-transform 0.25s;
+}
+
+.gameshow .screenshot
+{
+    transition: left 0.25s, height 0.25s;
+}
+
+.gameshow .caption
+{
+    transition: top 0.25s, opacity 0.25s;
+}
+
+/* Gameshow */
+.gameshow
+{
+    /* Category padding */
+    /*top: 20px;*/
+
+    /* Basic Background and Color */
+    background: #222;
+    color: #fff;
+
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+
+    overflow: hidden;
+    box-shadow: 0px 20px 50px -20px rgba(0, 0, 0, 0.2);
+    /*padding: 40px;*/
+}
+
+.loading #games .gameshow.featured
+{
+    top: 0px;
+    width: 100%;
+    z-index: 100;
+}
+
+#category
+{
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.loading #category
+{
+    opacity: 0;
+}
+
+.gameshow.left
+{
+    left: -150%;
+}
+
+.gameshow.right
+{
+    left: 85%;
+}
+
+.gameshow.left.hidden
+{
+    left: -200%;
+}
+
+.gameshow.right.hidden
+{
+    left: 100%;
+}
+
+.gameshow.left, .gameshow.right
+{
+    -webkit-transform: scale(0.8, 0.8);
+}
+
+.loading .gameshow.left .screenshot, .gameshow.right .screenshot, #games .gameshow.featured .screenshot
+{
+    height: 100%;
+}
+
+.loading .gameshow.left .caption, .gameshow.right .caption, #games .gameshow.featured .caption
+{
+    top: 100%;
+    opacity: 0;
+}
+
+.gameshow .screenshot
+{
+    background-size: cover;
+    background-position: center;
+
+    width: 100%;
+    height: 80%;
+}
+
+.gameshow .caption
+{
+    position: absolute;
+    top: 80%;
+    width: 100%;
+    opacity: 1;
+}
+
+.gameshow .caption p
+{
+    margin: 0.7em 20px;
+}
+
+.gameshow .caption .authors
+{
+    margin-top: 3px;
+    color: rgb(80, 80, 80);
+    font-weight: 200;
+    font-size: 0.8em;
+}
+
+.gameshow .caption h1
+{
+    font-family: 'Source Sans Pro';
+    font-weight: 300;
+    margin: 0.7em 20px;
+    margin-bottom: 0;
+}
+
+.gameshow .caption-left
+{
+    float: left;
+    width: 40%;
+}
+
+.gameshow .caption-right
+{
+    float: right;
+    width: 60%;
+}
+
+.gameshow .caption .description
+{
+    font-weight: 400;
+    margin-top: 26px;
+    color: #ccc;
+}
+
+/* Footer */
+footer
+{
+    /* Basic Background and Color */
+    background: rgb(50, 70, 130);
+    color: #fff;
+
+    position: absolute;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 120px;
+}
+
+
+footer img
+{
+    margin-top: 30px;
+    /*vertical-align: 100;*/
+    vertical-align: baseline;
+    float: right;
+}
+
+footer p
+{
+    font-weight: 100;
+    font-family: 'Open Sans';
+    font-size: 1em;
+    line-height: 1.5em;
+    color: rgb(90, 110, 180);
+    margin-top: 22px;
+    margin-right: 20px;
+    display: inline-block;
+    width: 330px;
+}
+
+footer .content
+{
+    width: 80%;
+    margin: 0 auto;
+}
+
+#category
+{
+    font-family: 'Montserrat';
+    font-weight: 700;
+    position: absolute;
+    top: -55px;
+    left: 0;
+    right: 0;
+    padding: 60px 0px 10px 0px;
+    color: white;
+    text-align: center;
+    background: red;
+    font-size: 1.5em;
+    z-index: 10000;
+    border-radius: 50px;
+    text-transform: uppercase;
+    background: -webkit-linear-gradient(top, #ff3232 0%,#ff3030 90%,rgb(150, 0, 0) 100%); /* Chrome10+,Safari5.1+ */
+}
+
+#category.hidden
+{
+    display: none;
+}
+
+#qr
+{
+    margin-top: 0;
+    margin-right: 20px;
+    vertical-align: -15;
+    float: none;
+    height: 70%;
+}

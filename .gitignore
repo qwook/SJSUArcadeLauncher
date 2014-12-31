@@ -20,5 +20,5 @@ Temporary Items
 .apdisk
 
 # Node modules
-node_modules
-games
+launcher/node_modules
+launcher/bower_components
