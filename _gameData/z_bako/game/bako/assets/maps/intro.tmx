@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tilemap2" tilewidth="32" tileheight="32">
+  <image source="../sprites/tilemap2.png" width="256" height="512"/>
+  <terraintypes>
+   <terrain name="testterrain" tile="-1"/>
+  </terraintypes>
+  <tile id="5" terrain="0,0,0,0"/>
+ </tileset>
+ <tileset firstgid="129" name="collision" tilewidth="32" tileheight="32">
+  <image source="../sprites/collision.gif" width="160" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="colshape" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="colshape" value="2"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="colshape" value="3"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="colshape" value="4"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="colshape" value="5"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="134" name="OrangeA" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_orange.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="186" name="Tiles_1_A_blue" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_blue.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="238" name="Tiles_1_A_green" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_green.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="290" name="generic_box" tilewidth="32" tileheight="32">
+  <image source="../sprites/box_generic.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="291" name="button" tilewidth="32" tileheight="32">
+  <image source="../sprites/button_blue.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="293" name="tramp" tilewidth="32" tileheight="32">
+  <image source="../sprites/trampoline.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="296" name="angled_tramp" tilewidth="32" tileheight="32">
+  <image source="../sprites/trampoline_angled.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="299" name="orange2" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_B_orange.png" width="416" height="128"/>
+ </tileset>
+ <imagelayer name="Background" width="100" height="100">
+  <image source="../backgrounds/bgConcept1_big.png"/>
+ </imagelayer>
+ <layer name="SharedLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2D1OwzAYBmD3MEzAjthBHCOnoezAzlF6NBwgkmUCiZPSuOZ5pHeoovjvk+vWIQAAAABbe07ysvFYWnS1C93lLoSp3HxFPf5WXOvuJlnvqaT1eAzhbdvRt0c96rJlPfYhdI+f7Xxknz1/is9fYx9PWT/9ey+/JG9nbv9jY1g6l6XtbVmP+H63pL245of0vTxzz7W8/zVn4lhbS9aoxXrEOc1q5xT1uJ85lsF9g/WwP44zhxb3xynrcbf7fn6VJL5vf2TW1OPYmTv2n+Ze4/7oz4/bJNfZ2OLnLn2+5vw4dubut3xfjbWT3i2UtNO/m/9+XjOm0vrWtD9ajHrUFfWoK+pRV/rzvL/zGZLf/Qx3QkNqOs9bzF/vj6ViP4c0W6/Tf6/HSL+Hkmy9rq3Xo9TVmdao1XqMGWp0V1Cb0rOwZG3GMveuYHDO9RhcTvxfX7uma37P/Kf9MZg7B99XpzG1P5wfp6UeddmHcIjzfqsx/Xl+EdctTSp/1kI9avYQ1yy9D5lK6X0JAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA5+UdXgUlag==
+  </data>
+ </layer>
+ <layer name="BlueLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1jERACAQA8FIRdoLwQCuQMD3MMxuc23KJAAAAAAA8L6ZjJXUad3eAgBAz2cDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgFxs3ngfD
+  </data>
+ </layer>
+ <layer name="GreenLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2LEJACEQBMAt9UuzxG/gQeUxN1AMnIGFi5ZLLrkEAAAAAAD2e5PnS0pPm8vKzlV9cLNxnzM5vSsAAAD7+LcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwK8CH7og1A==
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="100" height="100">
+  <object name="player1" gid="13" x="298" y="430"/>
+  <object name="player2" gid="13" x="357" y="433"/>
+  <object type="Button" gid="291" x="2525" y="641">
+   <properties>
+    <property name="collisiongroup" value="blue"/>
+    <property name="onpress" value="global:swapCollision()"/>
+    <property name="onrelease" value="global:swapCollision()"/>
+   </properties>
+  </object>
+  <object type="Button" gid="291" x="2717" y="803">
+   <properties>
+    <property name="collisiongroup" value="green"/>
+    <property name="onpress" value="global:swapCollision()"/>
+    <property name="onrelease" value="global:swapCollision()"/>
+   </properties>
+  </object>
+  <object name="tramp3" type="Prop" gid="293" x="1343" y="671">
+   <properties>
+    <property name="sprite" value="trampoline.png"/>
+    <property name="spriteheight" value="32"/>
+    <property name="spritewidth" value="32"/>
+   </properties>
+  </object>
+  <object name="tramp1" type="Prop" gid="293" x="574" y="605">
+   <properties>
+    <property name="sprite" value="trampoline.png"/>
+    <property name="spriteheight" value="32"/>
+    <property name="spritewidth" value="32"/>
+   </properties>
+  </object>
+  <object name="tramp2" type="Prop" gid="293" x="769" y="672">
+   <properties>
+    <property name="sprite" value="trampoline.png"/>
+    <property name="spriteheight" value="32"/>
+    <property name="spritewidth" value="32"/>
+   </properties>
+  </object>
+  <object name="tramp4" type="Prop" gid="293" x="1827" y="669">
+   <properties>
+    <property name="sprite" value="trampoline.png"/>
+    <property name="spriteheight" value="32"/>
+    <property name="spritewidth" value="32"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="574" y="594" width="64" height="13">
+   <properties>
+    <property name="ontrigger" value="activator:setVelocity(0,-750);tramp1:playAnimation(0,1,2,0.5)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="740" y="662" width="64" height="13">
+   <properties>
+    <property name="ontrigger" value="activator:setVelocity(0,-750);tramp2:playAnimation(0,1,2,0.5)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="1320" y="659" width="57" height="15">
+   <properties>
+    <property name="ontrigger" value="activator:setVelocity(0,-750);tramp3:playAnimation(0,1,2,0.5)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="1794" y="658" width="64" height="13">
+   <properties>
+    <property name="ontrigger" value="activator:setVelocity(0,-750);tramp4:playAnimation(0,1,2,0.5)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="2686" y="1123" width="126" height="29">
+   <properties>
+    <property name="ontrigger" value="activator:setVelocity(0,-750);"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="2466" y="1122" width="126" height="29">
+   <properties>
+    <property name="ontrigger" value="activator:setVelocity(0,-750);"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="2596" y="1123" width="84" height="26">
+   <properties>
+    <property name="ontrigger" value="global:changeMap(switcheroo)"/>
+   </properties>
+  </object>
+  <object name="monster" type="Prop" gid="16" x="1297" y="410">
+   <properties>
+    <property name="onspawn" value="monster:loopAnimation(0,0,14,1)"/>
+    <property name="sprite" value="npc/blueball.png"/>
+    <property name="spriteheight" value="128"/>
+    <property name="spritewidth" value="128"/>
+   </properties>
+  </object>
+  <object name="fonz" type="Prop" gid="16" x="207" y="567">
+   <properties>
+    <property name="onspawn" value="fonz:loopAnimation(0,0,7,1)"/>
+    <property name="sprite" value="npc/fonz.png"/>
+    <property name="spriteheight" value="256"/>
+    <property name="spritewidth" value="256"/>
+   </properties>
+  </object>
+  <object type="Text" x="304" y="488" width="171" height="69">
+   <properties>
+    <property name="string" value="hey whats up little dudes! welcome to the multidimensional rift!"/>
+   </properties>
+  </object>
+  <object name="fonz" type="Prop" gid="16" x="912" y="409">
+   <properties>
+    <property name="onspawn" value="fonz:loopAnimation(0,0,7,1)"/>
+    <property name="sprite" value="npc/fonz.png"/>
+    <property name="spriteheight" value="256"/>
+    <property name="spritewidth" value="256"/>
+   </properties>
+  </object>
+  <object type="Text" x="691" y="321" width="171" height="69">
+   <properties>
+    <property name="string" value="you'll find that most of the platforms here are easy to reach!"/>
+   </properties>
+  </object>
+  <object type="Text" x="1107" y="305" width="171" height="69">
+   <properties>
+    <property name="string" value="But look at both your screens! See?? You can see different views!"/>
+   </properties>
+  </object>
+  <object type="Text" x="1406" y="545" width="171" height="69">
+   <properties>
+    <property name="string" value="Is your friend stuck? Here's a tip: you can jump on another player!"/>
+   </properties>
+  </object>
+  <object name="teleporter_prop" type="Prop" x="2623" y="1150">
+   <properties>
+    <property name="onspawn" value="teleporter_prop:loopAnimation(0, 0, 3, 3)"/>
+    <property name="sprite" value="teleporter.png"/>
+    <property name="spriteheight" value="32"/>
+    <property name="spritewidth" value="32"/>
+   </properties>
+  </object>
+  <object name="bull" type="Prop" gid="16" x="1735" y="426">
+   <properties>
+    <property name="onspawn" value="bull:loopAnimation(0,0,9,1)"/>
+    <property name="sprite" value="npc/bull.png"/>
+    <property name="spriteheight" value="64"/>
+    <property name="spritewidth" value="64"/>
+   </properties>
+  </object>
+  <object name="muzak" x="48" y="236" width="66" height="63">
+   <properties>
+    <property name="onspawn" value="global:playMusic(crap2_d1.ogg, 0.1)"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="SharedCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt11sOgyAUQEG33p33q4kxGoGL9QIzCT9NwccJ2m4bAAAA8LbPYdDX8f5ejau59BW5p3r0p0cub/a4ey6WfF7zfC05fus1Rc9lv06rHj1a1rv7XmSdSI/IuUSPH517Nl8PPVrnls7TY+0e0dFyLnr8x6w9Sn9DRn7fPaF1X/Vcp9de369XI1OPGemRix656JHL0+/z3u+72WXdH6v2ydrj7Lgr7K9RetQatdGsPc6M0GWlHj+Zr0GPXPTIRY9cVu2RedReC89Z5X8WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZb5DQJoz
+  </data>
+ </layer>
+ <layer name="BlueCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt1sEJAAAIA7Gu7uZ+HaFIArfDJQAAAAAA0G9OAAB08mwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB8sWx3Awc=
+  </data>
+ </layer>
+ <layer name="GreenCollision" width="100" height="100" opacity="0.28">
+  <data encoding="base64" compression="zlib">
+   eJzt1yEOADAIA0C+vp8j5hAzgFnuktq6ikYAAAAAAMC+UzLdCfTUjb4CAADAv/w/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALgSjGkKlg==
+  </data>
+ </layer>
+ <layer name="Decoration" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztmVGyoyAQRV3aLMWlZCl+Tir+jt8s5S1ldARz04UKSOYZ3zlVKWhsGqVtGkzTAAAAAAAAAMCZGJrm13ffw9UY5/QrU9/5sn3D7cDI7/H3p2m6Zi7bLd3B6w3vvqkfzOgDd2/SfEJ8vJ9x/pv7s975so3p1oyP4FuRo2Pu9YtcL7ZT+p6trfslOXaae/GH8+XauM6Xbe44K/b+vQvBz7l9x99temZffuU+/zh2K+9Ym3sP1lawN8xlkb0pJvx65by8Su38cTdlKsNr/RZrT6Gf582V9I3ZCvaGA/ZC/vD1TWrHxwF/3Kxc8vy1fBFsHfXFxOSDx1x2/3t/VSM+jlBrrQq2jq5VE5MPHs/6pk/OGh+l9BXzh6xXh/PHw8h7+ytfn8af7iPE6iKvtavs87gLtnLuuVZ8nDV/GH+4lJzu68vzBFnnfkvPyFnUio8z5w9f3/SFjN1J/WXPOph3zupaWfp04brsZWOl24qnnLidxuqf4y9xm2unf973slblrsGBkD9SfSHP3dn3IDbXMV2ZcydtrZ3rmKz6ZuxFNzVubf4YRM6x49ur5Y/wvWRvf5VCzE97uhF/ra5vGmP+PXRyrROf7MatmUPt28nYSfHfV/KJOX9U8UkpKevb+Lyun30Q1dN5lesvugHNwWJn6ZMT/8YfbjA6qej3Ky9/m0/uMtd27lVea9f5ssTmt2R/tRb/FfdXrfGHC+2FJj+GXF/s2Trqi4mQP3zdSfvlCfF0r3g+D98VS+3I/x9O2n4Emntr2KphT88fQb46cm7Q/NHm9tc2kz+O7Hf1+9XHU3qGGUS3sL+T/kfyeafn80Izp6P0DCO6pWegrFiz6PerK+ypcs8wg9GTsk3pb8cRe23J/ev/H14usnMWapxh3nUGSsH+/xHajtiEcmL54wp5/VMJ+QNfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXI+/tjplug==
+  </data>
+ </layer>
+</map>

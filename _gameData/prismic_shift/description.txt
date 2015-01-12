@@ -1,0 +1,8 @@
+Concept, music, SFX, and graphics by A-zu-ra 
+Your mission is to destroy the shapes.
+Use your guns and yourself to eradicate them.
+Controls: Joystick to move
+          Top-left button to shoot
+          Top-center button to activate pivot
+          Top-right button to detonate yourself
+

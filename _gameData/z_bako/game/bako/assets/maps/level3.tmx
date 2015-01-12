@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tilemap2" tilewidth="32" tileheight="32">
+  <image source="../sprites/tilemap2.png" width="256" height="512"/>
+  <terraintypes>
+   <terrain name="testterrain" tile="-1"/>
+  </terraintypes>
+  <tile id="5" terrain="0,0,0,0"/>
+ </tileset>
+ <tileset firstgid="129" name="collision" tilewidth="32" tileheight="32">
+  <image source="../sprites/collision.gif" width="160" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="colshape" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="colshape" value="2"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="colshape" value="3"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="colshape" value="4"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="colshape" value="5"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="134" name="OrangeA" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_orange.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="186" name="Tiles_1_A_blue" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_blue.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="238" name="Tiles_1_A_green" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_green.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="290" name="generic_box" tilewidth="32" tileheight="32">
+  <image source="../sprites/box_generic.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="291" name="button" tilewidth="32" tileheight="32">
+  <image source="../sprites/button_blue.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="293" name="tramp" tilewidth="32" tileheight="32">
+  <image source="../sprites/trampoline.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="296" name="angled_tramp" tilewidth="32" tileheight="32">
+  <image source="../sprites/trampoline_angled.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="299" name="orange2" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_B_orange.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="351" name="objects" tilewidth="32" tileheight="32">
+  <image source="../sprites/object_tilemap.png" width="128" height="192"/>
+ </tileset>
+ <imagelayer name="Background" width="200" height="100">
+  <image source="../backgrounds/bgConcept1_big.png"/>
+ </imagelayer>
+ <layer name="SharedLayer" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2sEKwjAURUEX/v/GHxYREYoX05g2z3YGsqvQyjukES8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADWuP244MjMOGT6gEwfkC37cN6At099AE/6gEwfkOkDMn1Apg/I9AGZPiDTB2T6gEwfkOkDsrX/T9xqQUUVZrPCPcAnFWaz9x4q3DvHVuF9SB9U1TNj+uAsqvRRYR+DpZ45rLJ/wNZaZlMfnJU+IKvSx6jzh9YYqWfmqszgVn34HYCkZz+Zxf7B3uwfkB2hj9H/l6zyvMzX2ses9e1eR9AHyT+9s+iDvelDH2Q97/Rrr6+60negD17Mgj7IzII+yMyCPshmnwFGnyV6n2v5WTib1rnXB2ekD8gec39tvI4aZr+3W23nGea4Ay5JGys=
+  </data>
+ </layer>
+ <layer name="BlueLayer" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt10EOwCAIBED+/zG+1XsTmxqqNmTmBR5cFiIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAjvL0AwAAmrBXAQAAu7lDAACA1dwdAAD/kGE3gzdkBYAqXQLA3Wwv6BIAqnQJ3WT417CbzAH08zTXzXwAgBr7FPQn5zAmHzAmHwAAAADfuAAFIBQ3
+  </data>
+ </layer>
+ <layer name="GreenLayer" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1sEJADAIBEH7bzmfVCARRCQwU4GfY40AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgLezfQAA39MSAKo0A4AuLQGgSjMA6NARAIA5fi3I2Qfk7AMAAABgzgX0AAjU
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="200" height="100">
+  <object name="player2" gid="13" x="272" y="3152"/>
+  <object name="player1" gid="13" x="221" y="3151"/>
+  <object name="MUZAC" x="649" y="128" width="103" height="86">
+   <properties>
+    <property name="onspawn" value="global:playMusic(crap_d1.ogg, 0.1)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="767" y="3169" width="192" height="30">
+   <properties>
+    <property name="ontrigger" value="activator:teleportTo(flag1)"/>
+   </properties>
+  </object>
+  <object name="flag1" x="182" y="3113" width="37" height="51"/>
+  <object type="Text" x="752" y="3009" width="224" height="126">
+   <properties>
+    <property name="string" value="Things aren't always what they seem..."/>
+   </properties>
+  </object>
+  <object type="Trigger" x="2076" y="2556" width="42" height="102">
+   <properties>
+    <property name="ontrigger" value="activator:teleportTo(flag1)"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="SharedCollision" width="200" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt2lFO5DAQQEGuvtIeHFkIwc5OJonHsTvdVVL+gJi2HySIjw8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM748+YFmTnjsC1LHzO/jywzY1+WvdYHV3jc63ffR1Zef8eMZJc+6njWx53NaOTuM+K4bH00VzeSYUb0ybL3VzaSZUacl2nvr2ok04x4LePz1W9XNJJtRmzL3kczupGMM+K5Cn00IxvJOiP+V6WPZlQjmWfEvyr10YxoJPuM+FGtj+bdRirMiC8V+2jeaaTKjKjbR9PbSKUZVRfl/xNX6WlEH3VE2OvVazjbyOr1Mk+Eve5dw8i1n2kkwsyYI8LzUIQ+mqON6KOOnr3O2kdzpBF91BGljwi/x77tNaKPOo6cu6v/BhzxvL1qJOJ6ucazvdbHl61Goq6X8fTx2rNGIq+XsY6c/Rl9jHr/mPHOro86es5clPNxVR9n38eoQx9996UGffTdlxoy9DHi2vua1HS0j1XX3lpHiPrzgPVWPbP00Aez6UMfbOt5pj/78VGvrRnog2/Ogj7Y5izoI7LVe7H6/hHoI67Ve7H6HWD0u0Tv9/X4ucRgL+Y5Omt7Eoe9mEcf92Mv5tHH/cx+Lp9137tfxPAJPd0oIA==
+  </data>
+ </layer>
+ <layer name="BlueCollision" width="200" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt10EKgDAMBMB+PeDDPQlSqKC1RsIMlF5zSTZpDQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKgosgsAACjCXgUAAHzNHQIAAKzm7gAAyBentyXXAn939AoAPCVLAOjdzQVZAsAsWUI10f3AerIEoJ6ruW7mAwDMsU9BffocxvQHjOkPAAAAgHfs7QgNnw==
+  </data>
+ </layer>
+ <layer name="GreenCollision" width="200" height="100" opacity="0.28">
+  <data encoding="base64" compression="zlib">
+   eJzt1sEJADAIBEFbT+epQCKISGCmAj/HGgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAb2f7AAC+pyUAVGkGAF1aAkCVZgDQoSMAAHP8WpCzD8jZBwAAAMCcC++RBIo=
+  </data>
+ </layer>
+ <layer name="Decoration" width="200" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5Ux/gClUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAbOI8AAQ==
+  </data>
+ </layer>
+</map>

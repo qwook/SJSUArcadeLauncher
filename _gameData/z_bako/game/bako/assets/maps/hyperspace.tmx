@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="collision" tilewidth="32" tileheight="32">
+  <image source="../sprites/collision.gif" width="160" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="colshape" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="colshape" value="2"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="colshape" value="3"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="colshape" value="4"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="colshape" value="5"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="6" name="Tiles_1_A_blue" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_blue.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="58" name="Tiles_1_A_green" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_green.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="110" name="generic_box" tilewidth="32" tileheight="32">
+  <image source="../sprites/box_generic.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="111" name="button" tilewidth="32" tileheight="32">
+  <image source="../sprites/button_blue.png" width="64" height="32"/>
+ </tileset>
+ <tileset firstgid="113" name="tramp" tilewidth="32" tileheight="32">
+  <image source="../sprites/trampoline.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="116" name="angled_tramp" tilewidth="32" tileheight="32">
+  <image source="../sprites/trampoline_angled.png" width="96" height="32"/>
+ </tileset>
+ <tileset firstgid="119" name="orange2" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_B_orange.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="171" name="henstile" tilewidth="32" tileheight="32">
+  <image source="../sprites/henstile.gif" width="983" height="730"/>
+  <terraintypes>
+   <terrain name="rock" tile="31"/>
+   <terrain name="clear" tile="34"/>
+  </terraintypes>
+  <tile id="0" terrain="1,1,1,0"/>
+  <tile id="1" terrain="1,1,0,0"/>
+  <tile id="2" terrain="1,1,0,1"/>
+  <tile id="3" terrain="0,0,0,1"/>
+  <tile id="4" terrain="0,0,1,0"/>
+  <tile id="5" terrain="1,1,1,1"/>
+  <tile id="30" terrain="1,0,1,0"/>
+  <tile id="31" terrain="0,0,0,0"/>
+  <tile id="32" terrain="0,1,0,1"/>
+  <tile id="33" terrain="0,1,0,0"/>
+  <tile id="34" terrain="1,0,0,0"/>
+  <tile id="60" terrain="1,0,1,1"/>
+  <tile id="61" terrain="0,0,1,1"/>
+  <tile id="62" terrain="0,1,1,1"/>
+ </tileset>
+ <tileset firstgid="831" name="object_tilemap" tilewidth="32" tileheight="32">
+  <image source="../sprites/object_tilemap.png" width="128" height="192"/>
+ </tileset>
+ <imagelayer name="Background" width="100" height="100">
+  <image source="../backgrounds/bgConcept1_big.png"/>
+ </imagelayer>
+ <layer name="SharedLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztm01y4yAQRrldrjG38Gxmp51XuYGP4qONVLEyDOGvMQ0I3qvqUiwbUL5nJJnEmzHm05jHzZinXXdjfm371ikjqbvTZ2AMUZ8jVk2O/vZsHu7+P3tWHiciF3sfz9jY1hjdMx3FT8jHQcBJ0kuOC88Y3XMcwUvMx4F0nkhceMbonuHoPg48ToLHkHB7lPf5GZ2UkOPjwHEi9nG4uH/VYxUnJRzt9vurI8f/ypdZzvUklLed9SpOSgj1lZGr1wdOdHwInZS0xYmHVH+ZTkrbTu9ESk6fwnPXU9h2aidSEh6+1zW4nvT14a49FThhnsSCDxBy4X7GPvNgnrT1EVvvKHDi638pJ1JyXbh5aNx33aycY2sGtws5kSJxcSJwEvLhHev2b35Ej+Xlo3vWWj5e1+6Hvf/3/juHzhkHpU5CWVvrW1EX5+t656zs4+H6OPOs6QQXaaysfmRa08lqLt71oe1kNRc1fGg68bx+ahe1fLRwsoKLmj40nazioraPhJPU+9/rZCUXGj5qzBP7b8Gfkfssq90ULrR81HBi9bOMC00fNZys5kLbx7tOVnPRwsc7TkLM6qKVj5pOZnbR0kcNJ7O7aO0j5SQ25gouevgIOYmxiotePqROVnHR08fpJDXWSi56+mg1ztXqHTTHvNr/6Iziw31cc7wVndRgs7abs7/2WCMR+152aWkcp+tgRhdXY+Z5MSqh8xT0xXfdAIAvmA8/cb8Lnlta98A9+HhV6HErtNZ4JIzi8cNTLdFcb8thFA8hWvq4wmf3VWixDg1l4GMs8DEGm7XFRx98OeGjP25e+GhLKB8tLyAjlRke+hDLEBd1CF2zQ8+l+sKFHjnZbc7P+NBDmh8+dPC953PbpfLHhwzXhbQtc6EtZNwGcgaAK8K5CwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHL5CyrGXC8=
+  </data>
+ </layer>
+ <layer name="BlueLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztmsttwzAMQHXqAjl2oKzR0Tpqm4MBgSAp6mfJ9nsAkcS1KYrPkhOgKQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIR3FrAO6QAn7Xyn9Nubg96P4d/FzyvFnLyM49ZawFEbNU405D4F9cjeW05eWXjgoR2r98fxg9yDt1dBP9E9qvTM0J4dOGpDc/I59on8PG2/oudzyPeow8UR+bMjj3eKPVOgjWyd/ESdrHLxhHsg73HUycpa74zWa+lDnreS1ePPxNuLLCer2aGG0cjvqldysnr8GURcSCf59ZGelPK2cjcf0bVR6p32O/6suBPSR68TXPSh+fC8HOzg5I5EfWisdGLR6mkn3yUfHiuceLVYa3mHPtdgOfEozXOli56+7+KsxsWHSA9WrQurlqvR42Lm3lXKq43zFHp7N9qF5+XuyPlHvhtb145+XpzhZXSunvqkg8hvR6+GGS4if29h1pp7idfaa3MnrX2duS4iXmS+pBz3xqzBqqm2hlJNNT5qnUTGl3Ms5Wztae8as1xoTrT8X8G6rP3K81TKWesiuh5K92fk+Iz1IfNFxpDX1q6LnrnIGiN5a86Pzn/kHFLyx7eOyfc9DkbdX9F7vqeG6JqL1CyPWfm9sWW+yNxa10yJWhe9Y4+qXet1KX/t+KMclOY1IueoOfb40M5trW/mPHbv8wgfVn1JvEbHWD3XK0SJlv5rua1zRu1PdwnPgfzcknf1/Hr6spMPra+RGq08xBgfuYdkvNc+y6j9zf3U0LDO09x4Dryo/T+gp4RFrz+t/95nos3HqMBHnY/ZXvDR5qPHCT2f4yNtUOdTooXVNd85ZrF6XleM2aye39XiLFbPs6cHO9WyO2fOFxf3BBcAAAAAAAAAAAAAAAAA4PEHQx7ckQ==
+  </data>
+ </layer>
+ <layer name="GreenLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2UFugzAQQNE5F7us2HGGHC1H6dEKSiNZrj0e22Nikv+kKA1Q6vBjQKkIAAAAAAAAAAAAAAAAAAAAgE+yify8ewx4Olrc6NFtddgHLcaqaUSLcWrnCi38rdJ2zqLFeUp9aOFnzfxsXVZqcXtugwZr8JybE7QYw3Kd0Lahha/wWK9imxOvZ1r4W+V/h/hakuozssWx7+XkR+NQ3cU9Un3CbQ+jW3zzPVqpR9yEFmOVzlPhgxbj5eZC3IkW57Ccr2hxntz91TtbHPtcJnqcqTQ39vE8tN/f199b/q7WYsuMxTLelu1nUnof+7F53JQmLT1KLbSx9fSZvcXB8v60JrU9rC20scave+bPbKxjzzXZl903Y5OeFjmt561Z1XyeepqMaPGiHecrNAjVnm9bmoxsEb6H3LKrtDi0XANrmoxuEcu1uYrW+xJLk7NbiFzr2Kf03CtqTZY3tBD57h5akxT+P1XW28PahBY2Hj1KTcLvQKDz6pFrQos6uWOrrdO23f56vL4b3aLtoPOcH6VeKOs9xpbXIvSw8vz806Nf7fGWxLLU9mjTci3X1qfWwc7jHKXtD3U8rh2p/aBdzbXZ2gd9ao5zqhHG6DlnYQzul+bEXJgTLQAAAAAAAAAAAAAAAAAAAAAfv9+VNZg=
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="100" height="100">
+  <object name="excelerator" type="Trigger" x="225" y="54" width="16" height="199">
+   <properties>
+    <property name="ontrigger" value="activator:setVelocity(1000,1000)"/>
+   </properties>
+  </object>
+  <object type="Text" x="70" y="39" width="120" height="89">
+   <properties>
+    <property name="onspawn" value="self:type()"/>
+    <property name="string" value="PREPARE TO BE BLASTED IN TO HYPERDRIVE"/>
+   </properties>
+  </object>
+  <object name="player1" gid="831" x="68" y="157"/>
+  <object name="player2" gid="835" x="107" y="159"/>
+  <object type="Trigger" x="778" y="777" width="106" height="36">
+   <properties>
+    <property name="ontrigger" value="activator:multiplyVelocity(10,-10)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="2794" y="1194" width="203" height="365">
+   <properties>
+    <property name="ontrigger" value="activator:teleportTo(player1)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="368" y="379" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="601" y="616" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="841" y="594" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="802" y="335" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="618" y="158" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="986" y="229" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="1225" y="491" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="103" y="693" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="365" y="953" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="761" y="1328" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="1201" y="1748" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="1510" y="2056" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="1866" y="1688" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="989" y="743" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="918" y="822" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="404" y="1339" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="427" y="1625" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="838" y="1607" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="1317" y="1272" width="99" height="213">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(2000,0)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="552" y="842" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="374" y="682" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="264" y="559" width="226" height="39">
+   <properties>
+    <property name="ontrigger" value="activator:addVelocity(-2000,-2000)"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="759" y="1089" width="226" height="39">
+   <properties>
+    <property name="collisiongroup" value="blue"/>
+    <property name="ontrigger" value="activator:addVelocity(-2000,-2000)"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="SharedCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt2m1ugjAAgOGajHt6NI+yo002TYxrC/RDKzxPwh+n1PWNRRpDCOEUP75Dpes5LolzNxtjj06Rx76uc1UzX3OL6zkuuefUjrFXsR6z0vla06J2jD1L9Zhtna8tLUrH2Ltcj9na+fpaONf016pqjCNY6jFbM1/363TM9HBtX2py9C6x7z6xOVvbJPdaTcpoMh5NxqPJeEZosuHt7tbzfocm7xPbaxq1yfVv59zYny52j/04b52aZD+HqTHmFqcd98jtd7ygyabPyZFb3LVqknr88ci9/nacc+N8spI92dImqbFuc3xZei97bxHbB5xCes24vaaoSWqub2vPYosjrFGx9WEK+XU8hO1NtFh2//9jc9qyiRbb9WyiRZleTSLP/51jLZb1bqLFdh3XLi0KtW6iRb0WTR7vp7Wo17CJFo00aKJFYzVNtOijtEmKFvVaNdGindomWrSXarJEi36sUeOxRn0mLeC/Kay7zvM6erxfyf36uzz/9qvFMZrSPRT60WQ8moxHk/GMeI3j8+zl+xUAAAAAAAAAAAAAAAAAAAAAAAAAANDXD/t8mwc=
+  </data>
+ </layer>
+ <layer name="BlueCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt2E1uwyAQgFFc5aA5Wo/io9VITRdp8E9iBizek7xi4RHfBk1KAAAAAAAAAAAAAAAAjGZKab61HoI/S4t5rcly9h05D+UmucVNj+qWe07Pd/9oMv2eaxFro4kWDaw1aTAOSZMeXanJ1HqAIFdpMkqP7ApNRuqR9d5ktB5Zz01G7JH12mTUHlmPTdZ6fIVN0U5vTUr7zWWm+3J2j52mjV6alPY4I7V4aN1Ei/9aNdGibGMvPFf4nxYbopposV/tJlocV6uJFu87u4kWnzuriRbn+fQtrMX53m2iRT1Hm2hR30qT9PxpEeNVkz20qOdoEy3q29tEizhbTbSIV2qiRTuv3ldaAAAAAAAAAAAAAAAAAMT7ARBPUjY=
+  </data>
+ </layer>
+ <layer name="GreenCollision" width="100" height="100" opacity="0.28">
+  <data encoding="base64" compression="zlib">
+   eJzt2AsKgkAUQFGFFurSWkpLy7CgwJyPOj7rHIhA4zF2qRG7DgAAAAAAAAAAAAD4JX3XXY9eA5NHi4seIWgRhxZxaBGHFnFoEUeqxXhuGD8ztFvR/9IiDi3i0CKOPVs8ZvfTe7PXme3dwj1aPi3iqG3RT+dWzebT2t/FUhMtymz1HzXXRIsyW+8X702+zX7ObHp/dZZ7r9R6avbu53UutSieWSPi952S2otrridCizNL7MW3wllabOBbk/HYLbeJFtta00SLfdQ00WJfJU20aCOniRZtpZpo0V7Os8IXLdrIaaJFW0tNtDjGXBMtjjXzfHQ4dEEAAAAAAAAAAAAAAAAAAABwQnciA0dX
+  </data>
+ </layer>
+ <layer name="Decoration" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+</map>

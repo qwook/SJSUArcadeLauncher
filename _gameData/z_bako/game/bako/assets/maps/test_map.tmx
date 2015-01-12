@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Tiles_1_A" tilewidth="32" tileheight="32">
+  <image source="../Sprite_Art/Tiles_1_A.png" width="416" height="128"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1l1ugkAQAOCt0KRPatL2Pj2KR/EoHIWj9CgOQeOW8CP4QA3fl0yQXTbBmdkNKQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAusrrtVj1LbbtK+Izpd987LjOq7yUZ3q27Nx/pHsNoh6n+F3l8+oxLmpxekvpp+j08ZA8313NfviOOPTM3ep27BmjNTcfY/lO7Xi9H5lv2B9/Le3JWy2G8n3dZ3XMVbvOGZV7j+eKkXmm5bWY6v85tvqtFf16jt5NU7EbWJfXYt/eV2Pr+vTlfqtnV/TzOc/nUHT7fum6Ps05Ffmv8oix+uk/94Lm5rVcuI7H/If9wd0FHLAYMg==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2Y0KgjAUBlBfRvcCvf+z9adxGxtKiht5DlyIgpLvYy7mMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0TQPbaXHjGGm8Do1vK6ryvuIvVgv50vzTNks79NOyoZjnZFvaW1ZY99iRnFvPjqbeK+r7T/6qGdUympPXvneE7/b+nhbMtjaRSmv0r1n7feunvsW+f6xJbPafy3aKHWoDwAAgP9za30BfDy78AywD0sXY+sL4dVFPJNnv9q539oZYPw8f0biLPd3+uiLPvpxB++VG70=
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,67 @@
+During in-game, you can press F2 to view the GamePad and Joystick is connected or not.
+GamePad connection will be shown on debug mode 1.
+Joystick connection will be shown on debug mode 2.
+GamePad is passively updating, while Joystick only updates before the game is executed.
+So, to check for a new Joystick connection, close and reopen the game.
+
+-----------------------------------------------------------------------
+[P1 Controls], [P2 Controls], [P3 Controls], and [P4 Controls]:
+-----------------------------------------------------------------------
+These are keyboard controls. If you want to change them, please refer
+to the txt_keyboard_code_reference.txt file.
+
+KeyA = Light Attack
+KeyB = Medium Attack
+KeyC = Hard Attack
+KeyD = Special Attack
+KeyE = Dash Attack
+KeyF = Guard
+KeyStart = Start
+
+-----------------------------------------------------------------------
+[Gamepad Player]:
+-----------------------------------------------------------------------
+PadAUse -----	(set this to 1 if you want to use GamePad slot 0 controls)*
+PadBUse -----	(set this to 1 if you want to use GamePad slot 1 controls)*
+PadNumA -----	(set this to gamepad control to player 0, 1, 2, or 3. 0=P1, 1=P2, 2=P3, 3=P4)
+PadNumB	-----	(set this to gamepad control to player 0, 1, 2, or 3. 0=P1, 1=P2, 2=P3, 3=P4)
+PadADZ 	-----	(set deadzone for GamePad slot 0)
+PadBDZ	-----	(set deadzone for GamePad slot 1)
+
+-----------------------------------------------------------------------
+[Joystick Player]:
+-----------------------------------------------------------------------
+JoyAUse -----	(set this to 1 if you want to use Joystick ID 1 controls)*
+JoyBUse -----	(set this to 1 if you want to use Joystick ID 2 controls)*
+JoyNumA -----	(set this to joystick control to 0, 1, 2, or 3. 0=P1, 1=P2, 2=P3, 3=P4)
+JoyNumB	-----	(set this to joystick control to 0, 1, 2, or 3. 0=P1, 1=P2, 2=P3, 3=P4)
+JoyADZ 	-----	(set deadzone for Joystick ID 1)
+JoyBDZ	-----	(set deadzone for Joystick ID 2)
+
+-----------------------------------------------------------------------
+[GamePad Buttons]:
+-----------------------------------------------------------------------
+Control setup for GamePad.
+11 = gp_padu
+12 = gp_padd
+13 = gp_padl
+14 = gp_padr
+1 = gp_face1 
+2 = gp_face2
+3 = gp_face3
+4 = gp_face4
+5 = gp_shoulderl
+6 = gp_shoulderr
+7 = gp_start
+
+-----------------------------------------------------------------------
+[Joystick Buttons]:
+-----------------------------------------------------------------------
+Control setup for Joystick.
+Check with your controller properties to find what number is what.
+
+-----------------------------------------------------------------------
+*GamePad slots and Joystick id can happen to mix 
+such as slot 0 is equal to id 2 or slot 0 is equal to id 1. 
+If this happens, set either the PadUse or JoyUse to 0. 
+If the GamePad controls are working, I'd suggest setting the JoyUse to 0.

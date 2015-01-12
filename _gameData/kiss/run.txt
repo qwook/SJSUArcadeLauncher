@@ -1,0 +1,3 @@
+{path}/game/kiss.exe
+""
+1

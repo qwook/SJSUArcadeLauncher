@@ -1,0 +1,104 @@
+{
+	"player1" :
+	{
+		"dvorak" :
+		{
+			"a" : "left",
+			"e" : "right",
+			"," : "jump",
+			" " : "jump",
+			"o" : "crouch",
+			"'" : ":|",
+			"." : ":/"
+		},
+
+		"qwerty" :
+		{
+			"a" : "left",
+			"d" : "right",
+			"w" : "jump",
+			"s" : "crouch",
+			"p" : "select",
+			"q" : ":|",
+			"e" : ":/"
+		},
+		
+		"joystick" :
+		{
+			"joy_1_3" 		   : "jump",
+			"joy_1_axisdown_2" : "jump",
+			"joy_1_axisup_2"   : "crouch",
+			"joy_1_6" 		   : ":|",
+			"joy_1_8" 		   : ":/",
+			"joy_1_7" 		   : "start",
+			"joy_1_5" 		   : "select",
+			"joy_1_axisup_1"   : "right",
+			"joy_1_axisdown_1" : "left"
+		},
+		"arcade" :
+		{
+			"w" : "jump",
+			"a" : "left",
+			"d" : "right",
+			"s" : "crouch",
+			"f" : "jump",
+			"c" : "crouch",
+			"g"	: ":/",
+			"h"	: ":|"
+		}
+	},
+	"player2" :
+	{
+		"dvorak" :
+		{
+			"up" 	 : "jump",
+			"down" 	 : "crouch",
+			"rshift" : ":|",
+			"z"  	 : ":/",
+			"p" 	 : "select",
+			"y" 	 : "start",
+			"left"   : "left",
+			"right"  : "right"
+		},
+		"qwerty" :
+		{
+			"up" 	 : "jump",
+			"down"   : "crouch",
+			"rshift" : ":/",
+			"/" 	 : ":|",
+			"r" 	 : "select",
+			"t" 	 : "start",
+			"left"   : "left",
+			"right"  : "right"
+		},
+		"joystick" :
+		{
+			"joy_2_3" 		   : "jump",
+			"joy_2_axisdown_2" : "jump",
+			"joy_2_axisup_2"   : "crouch",
+			"joy_2_6" 		   : ":|",
+			"joy_2_8" 	       : ":/",
+			"joy_2_5" 		   : "select",
+			"joy_2_7" 		   : "start",
+			"joy_2_axisup_1"   : "right",
+			"joy_2_axisdown_1" : "left"
+		},
+		"arcade" :
+		{
+			"kp8" 	: "jump",
+			"kp4"  : "left",
+			"kp6" : "right",
+			"kp2"  : "crouch",
+			"up" 	: "jump",
+			"left"  : "left",
+			"right" : "right",
+			"down"  : "crouch",
+			"k" 	: "jump",
+			"," 	: "crouch",
+			"l"		: ":/",
+			";"		: ":|",
+			"1"		: "start",
+			"2"		: "select"
+		}
+	}
+}

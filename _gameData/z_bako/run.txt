@@ -1,0 +1,3 @@
+{path}/game/bako.exe
+""
+0

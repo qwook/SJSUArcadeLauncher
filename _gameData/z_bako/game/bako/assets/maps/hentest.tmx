@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tilemap2" tilewidth="32" tileheight="32">
+  <image source="../sprites/tilemap2.png" width="256" height="512"/>
+ </tileset>
+ <tileset firstgid="129" source="collisiontiles.tsx"/>
+ <tileset firstgid="134" name="OrangeA" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_orange.png" width="416" height="128"/>
+  <terraintypes>
+   <terrain name="Orange" tile="-1"/>
+  </terraintypes>
+  <tile id="0" terrain=",,0,0"/>
+  <tile id="1" terrain=",,0,"/>
+  <tile id="2" terrain="0,,,"/>
+  <tile id="3" terrain=",0,,"/>
+  <tile id="4" terrain=",,,0"/>
+  <tile id="13" terrain="0,0,0,0"/>
+  <tile id="14" terrain="0,,0,"/>
+  <tile id="15" terrain=",0,,0"/>
+  <tile id="16" terrain="0,0,,"/>
+ </tileset>
+ <tileset firstgid="186" name="Tiles_1_A_blue" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_blue.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="238" name="Tiles_1_A_green" tilewidth="32" tileheight="32">
+  <image source="../sprites/Tiles_1_A_green.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="290" name="generic_box" tilewidth="32" tileheight="32">
+  <image source="../sprites/box_generic.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="291" name="object_tilemap" tilewidth="32" tileheight="32">
+  <image source="../sprites/object_tilemap.png" width="128" height="192"/>
+ </tileset>
+ <tileset firstgid="315" name="henstile" tilewidth="32" tileheight="32">
+  <image source="../sprites/henstile.gif" width="983" height="730"/>
+  <terraintypes>
+   <terrain name="rock" tile="31"/>
+   <terrain name="clear" tile="34"/>
+  </terraintypes>
+  <tile id="0" terrain="1,1,1,0"/>
+  <tile id="1" terrain="1,1,0,0"/>
+  <tile id="2" terrain="1,1,0,1"/>
+  <tile id="3" terrain="0,0,0,1"/>
+  <tile id="4" terrain="0,0,1,0"/>
+  <tile id="5" terrain="1,1,1,1"/>
+  <tile id="30" terrain="1,0,1,0"/>
+  <tile id="31" terrain="0,0,0,0"/>
+  <tile id="32" terrain="0,1,0,1"/>
+  <tile id="33" terrain="0,1,0,0"/>
+  <tile id="34" terrain="1,0,0,0"/>
+  <tile id="60" terrain="1,0,1,1"/>
+  <tile id="61" terrain="0,0,1,1"/>
+  <tile id="62" terrain="0,1,1,1"/>
+ </tileset>
+ <imagelayer name="Background" width="100" height="100">
+  <image source="../backgrounds/bgConcept1_big.png"/>
+ </imagelayer>
+ <layer name="SharedLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2F1SgzAUBtCyrmp1G2q7DuvuhRk6Ze5AE346JHoezgvThJAvN4Qem8PhpffaemdXH63P3lcB4/nv5FEWeZTlu/W2UR7H5v4umvM+iu2i2M8xcX3JGEpyq5G1eQxrbU5/sV0U+5ka71g/NdZ8bXl0NX1t/cijiDzm9FNbHt2ee5FHMYbPcG4ev1dTLo08tsxja/LYJ49Tcz8zD+XWW6yrnH66c2w83471c060Ke18vEUe54w5nZvlM+6Z02bvehp+D+6he/7UmkhltjTTEvPYO5OcNZv6zZr6jLnGb5qa963alVAb8iivNm571rW39d51GvR9feJ91oyrpCymsonzdZq4npr/qWcdWwO599hCSfvT3JoZzmu8Hi1Za/E/wkdnjJj30uxqy2NvY5mM7fNxfeTmI49lmcytvan6jTnJo75sAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAv+cXO5Y9Bw==
+  </data>
+ </layer>
+ <layer name="BlueLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzjERACAMBMGXirQIiQFcgQMqJs1uc+0lAMBLJ2sndVvTLwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMBfB9vKA+I=
+  </data>
+ </layer>
+ <layer name="GreenLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzrERABAABMFXkJ6UpkQNmKEFEoLd5NJLAIAbI2kz6bv99QsAAAD8qpbXBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOcWY9oErA==
+  </data>
+ </layer>
+ <layer name="SharedCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKwCAQRUGv7s3TWoSI7kJ+MQN2cRN4iJljjLkscuiRRY8semSp9pgv63bf1zqdc+Pm/d06etzM2z1XmVPpUfmWDnrs9+mhR9d+PWpO79XdXadHFj2ydPzDVud0nfV1Hjn0yKJHFj2y6JFFjyx6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD/Hls7SxY=
+  </data>
+ </layer>
+ <layer name="BlueCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJztw7ENAAAIA6C+7ueu3dwNJCQAwGUqAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8NsC+pMBhA==
+  </data>
+ </layer>
+ <layer name="GreenCollision" width="100" height="100" opacity="0.28">
+  <data encoding="base64" compression="zlib">
+   eJztw7ENAAAIA6C+7ueunR0NJCQAwMVUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4I8F3FcBhA==
+  </data>
+ </layer>
+ <layer name="Decoration" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <layer name="custom_dlayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzkERACAMBLGTirQKqQFcgQuGTvLZ7yb8qpO1k7qt1y8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFMcBAgD4g==
+  </data>
+ </layer>
+ <layer name="custom_clayer" width="100" height="100" opacity="0.33">
+  <data encoding="base64" compression="zlib">
+   eJztw7EJAAAIA7C+7ueuPcBFSCAJX00FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAODGAjl2AYQ=
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="100" height="100">
+  <object type="Trigger" x="766" y="324" width="286" height="24">
+   <properties>
+    <property name="filter" value="funbox"/>
+    <property name="ontrigger" value="activator:teleportTo(point1);activator:setVelocity(0,0)"/>
+   </properties>
+  </object>
+  <object name="point1" gid="117" x="887" y="21"/>
+  <object type="Platform" x="430" y="106" width="69" height="9"/>
+  <object name="player1" gid="291" x="1112" y="78"/>
+  <object name="player2" gid="291" x="1170" y="82"/>
+  <object name="othertoggle" type="Toggle" gid="301" x="412" y="292">
+   <properties>
+    <property name="collisiongroup" value="blue"/>
+    <property name="onpress" value="physpoop:setFrozen(true)"/>
+    <property name="onrelease" value="physpoop:setFrozen(false)"/>
+   </properties>
+  </object>
+  <object type="Toggle" gid="301" x="486" y="292">
+   <properties>
+    <property name="collisiongroup" value="green"/>
+    <property name="onpress" value="physpoop:setVisible(false)"/>
+    <property name="onrelease" value="physpoop:setVisible(true);global:playSound(thwap.wav)"/>
+   </properties>
+  </object>
+  <object name="physpoop" type="PhysBox" gid="290" x="391" y="183">
+   <properties>
+    <property name="onspawn" value="physpoop:setFrozen(true)"/>
+   </properties>
+  </object>
+  <object name="physpoop" type="PhysBox" gid="290" x="443" y="164">
+   <properties>
+    <property name="onspawn" value="physpoop:setFrozen(true)"/>
+   </properties>
+  </object>
+  <object name="physpoop" type="PhysBox" gid="290" x="479" y="159">
+   <properties>
+    <property name="onspawn" value="physpoop:setFrozen(true)"/>
+   </properties>
+  </object>
+  <object name="physpoop" type="PhysBox" gid="290" x="543" y="149">
+   <properties>
+    <property name="onspawn" value="physpoop:setFrozen(true)"/>
+   </properties>
+  </object>
+  <object name="physpoop" type="PhysBox" gid="290" x="479" y="203">
+   <properties>
+    <property name="onspawn" value="physpoop:setFrozen(true)"/>
+   </properties>
+  </object>
+  <object name="physpoop" type="PhysBox" gid="290" x="372" y="144">
+   <properties>
+    <property name="onspawn" value="physpoop:setFrozen(true)"/>
+   </properties>
+  </object>
+  <object name="funbox" type="PhysBox" gid="290" x="817" y="71">
+   <properties>
+    <property name="mass" value="50"/>
+    <property name="onspawn" value="funbox:setGravity(0)"/>
+   </properties>
+  </object>
+  <object type="Text" x="244" y="177" width="114" height="59">
+   <properties>
+    <property name="string" value="Yo what's up? Lorem ipsum dolar set amet!"/>
+   </properties>
+  </object>
+  <object name="teleporter_prop" type="Prop" gid="311" x="563" y="265">
+   <properties>
+    <property name="onspawn" value="teleporter_prop:loopAnimation(0, 0, 3, 3)"/>
+    <property name="sprite" value="teleporter.png"/>
+    <property name="spriteheight" value="32"/>
+    <property name="spritewidth" value="32"/>
+   </properties>
+  </object>
+  <object name="poops" type="LayerObject" gid="16" x="381" y="60">
+   <properties>
+    <property name="collision" value="custom_clayer"/>
+    <property name="display" value="custom_dlayer"/>
+   </properties>
+  </object>
+  <object name="fuckery" type="PhysBox" x="174" y="37" width="120" height="72"/>
+  <object name="fuckery" type="PhysBox" x="497" y="2" width="31" height="43"/>
+  <object name="funbox" type="PhysBox" x="790" y="219" width="154" height="60">
+   <properties>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object name="camera1" type="Camera" gid="4" x="699" y="72"/>
+  <object name="dialogue1" type="Text" x="621" y="21" width="114" height="59">
+   <properties>
+    <property name="onspawn" value="dialogue1:setVisible(false)"/>
+    <property name="string" value="Well this could be some cool hint dialogue thing"/>
+   </properties>
+  </object>
+  <object name="timer1" type="Timer" gid="116" x="665" y="69">
+   <properties>
+    <property name="onEnd" value="camera1:setActivated(false);self:destroy()"/>
+    <property name="time" value="4"/>
+   </properties>
+  </object>
+  <object type="Trigger" x="515" y="217" width="133" height="67">
+   <properties>
+    <property name="ontrigger" value="camera1:setActivated(true);dialogue1:type();timer1:start();self:destroy()"/>
+   </properties>
+  </object>
+  <object gid="351" x="650" y="111"/>
+  <object name="funbox" type="PhysBox" gid="290" x="866" y="152">
+   <properties>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object name="funbox" type="PhysBox" gid="290" x="967" y="161">
+   <properties>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object name="funbox" type="PhysBox" gid="290" x="924" y="134">
+   <properties>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object name="funbox" type="PhysBox" gid="290" x="960" y="225">
+   <properties>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object name="funbox" type="PhysBox" gid="290" x="993" y="83">
+   <properties>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object name="funbox" type="PhysBox" gid="290" x="922" y="93">
+   <properties>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object name="uh fuk nah" type="Trampoline" gid="290" x="1068" y="126">
+   <properties>
+    <property name="goal" value="goal3"/>
+   </properties>
+  </object>
+  <object name="goal" gid="4" x="1473" y="126"/>
+  <object name="uh fuk nah" type="Trampoline" gid="290" x="1652" y="131">
+   <properties>
+    <property name="collisiongroup" value="blue"/>
+    <property name="goal" value="goal2"/>
+   </properties>
+  </object>
+  <object name="goal2" gid="4" x="1948" y="131"/>
+  <object name="uh fuk nah" type="Trampoline" gid="290" x="1638" y="130">
+   <properties>
+    <property name="collisiongroup" value="green"/>
+    <property name="goal" value="goal3"/>
+   </properties>
+  </object>
+  <object name="goal3" gid="4" x="2079" y="128"/>
+  <object name="uh fuk nah" type="Trampoline" gid="290" x="1481" y="127">
+   <properties>
+    <property name="goal" value="goal5"/>
+   </properties>
+  </object>
+  <object name="goal5" gid="4" x="1640" y="118"/>
+  <object type="Button" gid="299" x="721" y="129">
+   <properties>
+    <property name="collisiongroup" value="blue"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

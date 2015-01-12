@@ -1,0 +1,3 @@
+{path}/game/day10.exe
+""
+0

@@ -1,0 +1,20 @@
+tofix/todo:
+===========
+
+* A lot of redundancy in entities repeating same code,
+should extend. Should make them derive common class.
+
+* Move global variables into a single file.
+
+* World needs to be properly disposed of when resetting.
+
+* Events triggered with the map need better debug support.
+    - Should tell you if the object acted upon is nil.
+    - Also, there shouldn't be any case sensitivity.
+
+* map.lua needs to abstract more of the Tiled loader.
+    - The `Simple Tiled Implementation` library is great,
+    but it doesn't have a lot of functions needed to access
+    some Tiled properties.
+    - We could build a foundation on STI, but later on
+    we should not have to depend on it.

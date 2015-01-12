@@ -1,0 +1,3 @@
+A fighting game that pitches two players against each other 
+in an epic battle of dominance. Players must shoot, collect power-ups, 
+and defend to outsmart their opponent.

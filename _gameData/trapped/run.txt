@@ -1,0 +1,3 @@
+{path}/game/trapped.exe
+""
+0

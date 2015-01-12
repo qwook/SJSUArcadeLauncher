@@ -1,0 +1,3 @@
+Shmup-style bullet dodger game
+Controls: Joystick (move),
+          B1 (restart)

@@ -1,0 +1,3 @@
+{path}/game/dont-blow-up.exe
+""
+1

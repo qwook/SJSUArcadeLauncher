@@ -1,0 +1,10 @@
+
+        global.player1_move_left = 39
+        global.player1_move_right = 37
+        global.player1_shoot = 38
+        global.player1_jump = 40
+        global.player2_move_left = 37
+        global.player2_move_right = 39
+        global.player2_shoot = 38
+        global.player2_jump = 40
+        

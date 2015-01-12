@@ -1,0 +1,58 @@
+﻿List of changes for Prismic Shift ver. GM8.1 FINAL
+(Product code PS:U:AOI:2014021903)
+
+Major changes
+- Proper diagonal movement implemented
+- New music implemented
+	- Title music changed
+	- Mode select music slightly changed
+	- 2 minute mode music changed
+	- 5 minute mode music changed
+	- High score music changed
+	- Added 2nd-50th place high score music
+- Instruction snippet replaced with a proper How to Play sequence
+- Slightly redesigned mode select screen
+- High score entry screen now shows your score and position on leaderboard
+- Square and wall formations implemented
+  (the former in all modes, the latter in 5 minute mode only)
+- V formation now forms properly based on the direction it's headed
+- Dynamic crimson red background implemented for visual rank level
+  indication
+- New background animations for 5 minute mode
+- Rate of fire increases from 20 to 30 upon reaching MAX rank
+- Multiplier is shared upon explosion; individual players must still
+  reach max multiplier on their own side to get plus bonuses, which are
+  not shared
+- Chain indicator implemented: a cosmetic reference for those that want
+  an indicator of how many points and extends they're earning in a single
+  explosion
+- Pivot and detonate messages now have tooltip boxes alongside button
+  indicators instead of being relegated as a message at the bottom of
+  the screen
+
+Minor changes
+- Removed the selected control scheme message in the disclaimer
+- Removed the random rage quit messages in the disclaimer
+  (They were to show up if a machine reached 20 "rage quits" or more)
+- Changed up the disclaimer text a little bit
+- Fixed up the WINNERS DON'T RAGE QUIT sign
+- Pivot sound now goes from low-high instead of high-low
+- Extend sound changed to something more pleasant sounding
+- Moved the single play round clear score texts to be slightly farther
+  from each other
+- Increased pacifist clear bonuses to compensate for inflated score
+  potential in the new version
+- Co-op respawns now on their respective sides rather than in the center
+
+Emergency bug fixes
+- [PS:U:AOI:2014021901] Fixed 5 minute mode not showing proper rank
+  position (was comparing with the co-op 2 minute mode scoreboard)
+- [PS:U:AOI:2014021902] Fixed combined based multiplier not applying when
+  other player runs into a player's explosion
+- [PS:U:AOI:2014021903] Fixed chain display not resetting when other
+  player runs into a player's explosion
+- [PS:U:AOI:2014021904] Changed tooltips to better reflect button
+  positioning rather than using letter identifiers
+- [PS:U:AOI:2014021905] Fixed issue pertaining to not being able to switch
+  out of SINGLE PLAY 2min. leaderboard display manually
+- [PS:U:AOI:2014021906] Fixed pacifist clear point displays in co-op

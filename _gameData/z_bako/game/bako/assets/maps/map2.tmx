@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tilemap2" tilewidth="32" tileheight="32">
+  <image source="tilemap2.png" width="256" height="512"/>
+  <terraintypes>
+   <terrain name="testterrain" tile="-1"/>
+  </terraintypes>
+  <tile id="5" terrain="0,0,0,0"/>
+ </tileset>
+ <tileset firstgid="129" name="collision" tilewidth="32" tileheight="32">
+  <image source="collision.gif" width="160" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="colshape" value="1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="colshape" value="2"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="colshape" value="3"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="colshape" value="4"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="colshape" value="5"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="134" name="OrangeA" tilewidth="32" tileheight="32">
+  <image source="../sandbox_shared/Sprite_Art/Tiles_1_A.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="186" name="Tiles_1_A_blue" tilewidth="32" tileheight="32">
+  <image source="../assets/Tiles_1_A_blue.png" width="416" height="128"/>
+ </tileset>
+ <tileset firstgid="238" name="Tiles_1_A_green" tilewidth="32" tileheight="32">
+  <image source="../assets/Tiles_1_A_green.png" width="416" height="128"/>
+ </tileset>
+ <imagelayer name="Background" width="100" height="100">
+  <image source="../assets/bgConcept1_big.png"/>
+ </imagelayer>
+ <layer name="SharedLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2d9ugyAYh2EurZeyS+lR/2Tb0VwWPdqleGmD1GaEoAJ+CNj3Sb6sy2qH/IogKgUAqN2tdAMWXJU6X0s3YmffpRuwoNN5dJHH9Lp+dF2mai3PI+VhsvhyKjbPNe+e332V6ih5+LLIlcdav8/9zVx/18btEfIwWQwqPI9P9X89iyl93Dn9bB7ns/Y9aTkP069mrpjLYu687X6Jqa1jTY+JUed6MqVfn3zvaSGPue/zUg458tD/77x1jKypPY+pH6L7Lkcez0z6jJm0kMeWks4j9zipNY8PJZOHKfc6J/GZw7RWks6l1jwMe/4LqPES+H6JPHJdv2rOIxepcZdjrJCHbPnWgaF7NteE/aGS7Ptb9zzv08+bUm+6fpc+J2cevgrt45T9upLc+WTunir2c3JXaDtbyyPWff0t1Xju+Rw5j1aY6/DznvcV8giZU0oK2WfEflrJw11PSVZNzw27x3luWqPsQbdzLL0Gzc3M47W0Zc3eeew9z7S2ppK+TxisvavSfWA/0yzdllJS5k3fmJGY1+xnOuSxrQ+s52Qi47fmOTwnO48t++Td4/5t1MePku17Ne4+YuoYOfo+017Ioy5uHqnXLPKQ4XvuMSSslV55TSSpL/BMAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQjz8KPccB
+  </data>
+ </layer>
+ <layer name="BlueLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzsEJACAQA8GUamkWcg3YlT7swQNnYCHPJAAA8JdKxrqdPV//AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAetkq5ATL
+  </data>
+ </layer>
+ <layer name="GreenLayer" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztzkENACAQBLGVijSknQQMkIALLqH9zHcSAOAnKxk7qdv5+gUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6OjIRBL4=
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="100" height="100">
+  <object name="player1" gid="13" x="199" y="233"/>
+  <object name="player2" gid="13" x="274" y="142"/>
+  <object type="PhysBox" gid="12" x="838" y="252"/>
+  <object type="PhysBox" gid="12" x="516" y="125"/>
+  <object type="PhysBox" gid="12" x="551" y="124"/>
+  <object type="PhysBox" gid="12" x="586" y="124"/>
+  <object type="PhysBox" gid="12" x="534" y="83"/>
+  <object type="PhysBox" gid="12" x="568" y="83"/>
+  <object type="PhysBox" gid="12" x="552" y="40"/>
+  <object type="Button" gid="4" x="898" y="260">
+   <properties>
+    <property name="collisiongroup" value="green"/>
+    <property name="visibleonboth" value="false"/>
+   </properties>
+  </object>
+  <object type="Button" gid="4" x="952" y="260">
+   <properties>
+    <property name="collisiongroup" value="blue"/>
+    <property name="visibleonboth" value="false"/>
+   </properties>
+  </object>
+  <object type="Button" gid="4" x="225" y="328">
+   <properties>
+    <property name="collisiongroup" value="green"/>
+    <property name="onpress" value="global:swapCollision()"/>
+    <property name="visibleonboth" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="SharedCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJzt2dGKgzAQBVB/vdv2v5c+BCSojTrqxJ4DwiLdYeJNGq3DAEB2j6sbWPAYcvd3hMzj3ZLH3+j/eswzc79rr+cni+dEjZ5k7ndNHlNZlBpZtKzbTP3WWvOYy6LUmPp8fW1ajteK3r/1csc8ynWdy6LUaDnX2s8ed1kfc/N5KYdxjZZzLd7D/jXyTQ95tFz3pRot51odnUn2PI6osbfukZlkziPC3N6813uI2eNrmfOo70cijyjRayVzHkeJHnPkWpFHnJLL1vXY2+87db9Tf7eM6ewx3z2PvX1H70VR+1VveazV09jGz7xca/zM+wt5ZJ93Lb8zcp5e8siwx54ha1+1I3vLMu6yj/fg7DzOnp/lPVpPeUQer6r2lcbvNK/u5Spb9s2pNRMxN55VvV8UdR9z53uLM43Hved38qk5znpT3ztb6/zqnI4kj1zqa7j1O0seMZaeOezB51t6fycPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgPv7Bw19t9Q=
+  </data>
+ </layer>
+ <layer name="BlueCollision" width="100" height="100" opacity="0.48">
+  <data encoding="base64" compression="zlib">
+   eJztw7EJAAAIA7C+7ueuxRdMIAkAAPwyJwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQFteQwIF
+  </data>
+ </layer>
+ <layer name="GreenCollision" width="100" height="100" opacity="0.28">
+  <data encoding="base64" compression="zlib">
+   eJztw7EJAAAIA7C+7ueuBU8wgSQAwCdTAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgGsBxiABhA==
+  </data>
+ </layer>
+ <layer name="Decoration" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2VFygjAUBdAszaW5h64C5Vec/nVpJUNoGaoShrRkyjkzb/LUH8yFBDQEAABqcUtjs+tREMUsxhyaIJM9TbMIod4sjnqeLH3vS1/Xvto05rxmWReGeW9TjY54Dv6l9/A9569qlLMudEOdc/tbGvkpJ48l/Tyf+vrI7aOjZ3JNY/ukD5P3pnnMP597tvfn9EfP5LesXa+mfSSXstauV/O1K5JJGVvWq0d7k1y2eZuNj/pp5Xp1jwHwX3R7HwBf4j2C38jqcQnyYL3xXv8+1Llkz3qTPE739Gxcqq+BPbweMYuj7xm1/F8a1017eLk8jj6PpdRyfTAY83B+10EedRnz6DyDVKEJ268R1xYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbPcJakGZqQ==
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,4 @@
+Go do ninja things
+Controls: Joystick (move),
+          B1 (jump),
+          B2 (sprint)

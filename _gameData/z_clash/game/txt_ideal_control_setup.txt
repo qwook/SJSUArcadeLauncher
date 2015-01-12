@@ -1,0 +1,40 @@
+Ideal controls for certain controllers.
+
+-----------------------------------------------------------------
+Xbox 360 Controller/Logitech F-310 XInput:
+-----------------------------------------------------------------
+
+Under "[Joystick Buttons]" put:
+JoyAKeyUp=0
+JoyAKeyDown=180
+JoyAKeyLeft=270
+JoyAKeyRight=90
+JoyAKeyA=3
+JoyAKeyB=4
+JoyAKeyC=2
+JoyAKeyD=1
+JoyAKeyE=5
+JoyAKeyF=6
+JoyAStart=8
+
+Change the "A" after Joy to "B" if it is using id 2 of Joystick.
+
+
+-----------------------------------------------------------------
+Logitech Dual Action M/N G-UF13A:
+-----------------------------------------------------------------
+
+Under "[Joystick Buttons]" put:
+JoyAKeyUp=0
+JoyAKeyDown=180
+JoyAKeyLeft=270
+JoyAKeyRight=90
+JoyAKeyA=1
+JoyAKeyB=4
+JoyAKeyC=3
+JoyAKeyD=2
+JoyAKeyE=7
+JoyAKeyF=8
+JoyAStart=10
+
+Change the "A" after Joy to "B" if it is using id 2 of Joystick.

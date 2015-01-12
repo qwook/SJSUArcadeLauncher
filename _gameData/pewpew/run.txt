@@ -1,0 +1,3 @@
+{path}/game/pewpew.exe
+""
+0

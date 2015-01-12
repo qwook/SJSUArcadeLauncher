@@ -1,0 +1,3 @@
+{path}/game/candy_corn_spider.exe
+""
+1

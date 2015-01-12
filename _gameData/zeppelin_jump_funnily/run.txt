@@ -1,0 +1,3 @@
+{path}/game/zeppelin_jump_funnily.exe
+""
+0

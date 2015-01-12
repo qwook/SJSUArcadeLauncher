@@ -1,0 +1,3 @@
+{path}/game/Swiftly Working Poland.exe
+""
+1

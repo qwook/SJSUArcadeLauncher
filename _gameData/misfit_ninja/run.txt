@@ -1,0 +1,3 @@
+{path}/game/misfit-ninja.exe
+""
+1

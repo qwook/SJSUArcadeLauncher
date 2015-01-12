@@ -1,0 +1,3 @@
+{path}/game/Nepenthes.exe
+""
+1

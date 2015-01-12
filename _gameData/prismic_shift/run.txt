@@ -1,0 +1,3 @@
+{path}/game/prismic_shift.exe
+""
+0

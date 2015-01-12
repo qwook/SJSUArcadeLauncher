@@ -1,0 +1,3 @@
+{path}/game/world-of-dads.exe
+
+1

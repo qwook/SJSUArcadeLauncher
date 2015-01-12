@@ -23,12 +23,12 @@ var fs = require('fs')
 ,   gui = require('nw.gui')
 ,   cp = require('child_process')
 
-var monitor = require('./monitor/build/Release/monitor');
-console.log( monitor.hello() );
+// var monitor = require('./monitor.js')
+// console.log( monitor.hello() );
 
-// var Monitor;
+var Monitor;
 if (has_windows) {
-    // Monitor = require('./monitor.js')
+    Monitor = require('./src/monitor.js')
 }
 
 var win = gui.Window.get();
@@ -123,25 +123,36 @@ setPresetCallback(function() {
 // if (has_windows) {
     setLaunchGameCallback(function(data) {
         console.log(path.join(WORKING_DIRECTORY, data.path, data.exe));
-        // cp.exec(path.join(WORKING_DIRECTORY, data.path, data.exe));
-        // setTimeout(function() {
-            // console.log(data.exe);
-            // var monitor = new Monitor(data.exe);
-            // monitor.setCallbacks(
-            //     // on game loading (every tick)
-            //     function() {
-            //     },
-            //     // on game loaded
-            //     function() {
-            //         win.minimize();
-            //     },
-            //     // on game closed
-            //     function () {
-            //         reset();
-            //         win.focus();
-            //     }
-            // )
-        // }, 1000);
+        cp.exec(path.join(WORKING_DIRECTORY, data.path, data.exe));
+        setTimeout(function() {
+            var found = false;
+            var monitor = new Monitor(path.basename(data.exe));
+            monitor.setCallbacks(
+                // on game loading (every tick)
+                function() {
+                    console.log("sup loading");
+                },
+                // on game loaded
+                function() {
+                    console.log("found");
+                    found = true;
+                    win.setAlwaysOnTop(false);
+                    // win.blur();
+                    // win.leaveKioskMode();
+                    win.minimize();
+                },
+                // on game closed
+                function () {
+                    console.log("closed");
+                    reset();
+                    win.focus();
+                    win.setAlwaysOnTop(true);
+                    // win.enterKioskMode();
+                    found = false;
+                }
+            )
+            monitor.start();
+        }, 1000);
     })
 // }
 

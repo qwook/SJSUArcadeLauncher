@@ -1,0 +1,4 @@
+Help the dewdrop roll, jump, and disperse its way back home
+Controls: B1 (jump/menu option 1),
+          B2 (disperse/menu option 2),
+          B3 (menu option 3)
