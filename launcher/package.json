@@ -13,6 +13,7 @@
   "window": {
     "width": 800,
     "height": 640,
+    "toolbar": false,
     "kiosk": true
   }
 }
