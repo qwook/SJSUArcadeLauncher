@@ -117,8 +117,8 @@ body
 	position: absolute;
 	top: 5%;
 	bottom: 5%;
-	left: 20%;
-	right: 20%;
+	left: 10%;
+	right: 10%;
 
 	overflow: hidden;
 
@@ -128,8 +128,10 @@ body
 	{
 		width: 100%;
 		height: 100%;
+		background-color: black;
 		background-position: center;
-		background-size: cover;
+		background-size: contain;
+		background-repeat: no-repeat;
 	}
 
 	.caption
@@ -137,7 +139,8 @@ body
 		position: absolute;
 		bottom: 0;
 
-		background: rgba(50, 50, 50, 0.7);
+		// background: rgba(50, 50, 50, 0.7);
+		background: rgba(0, 0, 0, 0.9);
 	    color: rgb(200, 200, 200);
 
 		width: 100%;
@@ -173,25 +176,25 @@ body
 
 	&.left
 	{
-		transform: translateX(-92%) scale(0.8);
+		transform: translateX(-97%) scale(0.8);
 		z-index: 1;
 	}
 
 	&.right
 	{
-		transform: translateX(92%) scale(0.8);
+		transform: translateX(97%) scale(0.8);
 		z-index: 1;
 	}
 
 	&.unseen.left
 	{
-		transform: translateX(-130%) scale(0.7);
+		transform: translateX(-140%) scale(0.7);
 		z-index: 0;
 	}
 
 	&.unseen.right
 	{
-		transform: translateX(130%) scale(0.7);
+		transform: translateX(140%) scale(0.7);
 		z-index: 0;
 	}
 }

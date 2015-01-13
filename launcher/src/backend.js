@@ -123,18 +123,18 @@ setPresetCallback(function() {
 // if (has_windows) {
     setLaunchGameCallback(function(data) {
         console.log(path.join(WORKING_DIRECTORY, data.path, data.exe));
-        cp.exec(path.join(WORKING_DIRECTORY, data.path, data.exe));
+        cp.exec("\"" + path.join(WORKING_DIRECTORY, data.path, data.exe) + "\"");
         setTimeout(function() {
             var found = false;
             var monitor = new Monitor(path.basename(data.exe));
             monitor.setCallbacks(
                 // on game loading (every tick)
                 function() {
-                    console.log("sup loading");
+                    // console.log("sup loading");
                 },
                 // on game loaded
                 function() {
-                    console.log("found");
+                    // console.log("found");
                     found = true;
                     win.setAlwaysOnTop(false);
                     // win.blur();
@@ -143,7 +143,7 @@ setPresetCallback(function() {
                 },
                 // on game closed
                 function () {
-                    console.log("closed");
+                    // console.log("closed");
                     reset();
                     win.focus();
                     win.setAlwaysOnTop(true);

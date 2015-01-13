@@ -152,11 +152,11 @@ $(document).keydown(function(e) {
     switch (e.keyCode) {
         case 65:
         case 37:
-            moveLeft();
+            moveRight();
             break;
         case 68:
         case 39:
-            moveRight();
+            moveLeft();
             break;
         case 13:
         case 49:
