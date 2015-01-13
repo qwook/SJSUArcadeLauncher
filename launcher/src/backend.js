@@ -60,7 +60,7 @@ var preset = -1;
 var STATISTICS_FILE = path.join(WORKING_DIRECTORY, "statistics.json");
 // create statistics file if it doesn't exist
 if (!fs.existsSync(STATISTICS_FILE)) {
-    fs.writeFileSync(STATISTICS_FILE, '{}');
+    fs.writeFileSync(STATISTICS_FILE, 'statistics={}');
 }
 
 function getGameStatistics() {
