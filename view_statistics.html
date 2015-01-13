@@ -33,9 +33,12 @@ var t=e.extend({height:this.chart.height,width:this.chart.width});this.scale.upd
 	} 
 
 	function intToRGB(i){
-	    return ((i>>16)&0xFF).toString(16) + 
-	           ((i>>8)&0xFF).toString(16) + 
-	           (i&0xFF).toString(16);
+	    var x = Math.sin(i) * 10000;
+	    var rand = x - Math.floor(x);
+	    rand *= 100000000;
+	    return ((rand>>16)&0xFF).toString(16) + 
+	           ((rand>>8)&0xFF).toString(16) + 
+	           (rand&0xFF).toString(16);
 	}
 
 
