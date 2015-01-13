@@ -22,3 +22,6 @@ Temporary Items
 # Node modules
 launcher/node_modules
 launcher/bower_components
+
+_launcherData
+_gameData
