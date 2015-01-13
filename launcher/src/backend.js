@@ -127,27 +127,38 @@ setPresetCallback(function() {
         setTimeout(function() {
             var found = false;
             var monitor = new Monitor(path.basename(data.exe));
+
+            // I'm giving this thing 10 seconds to load...
+            var timeOut = setTimeout(function() {
+                if (found == false) {
+                    monitor.kill();
+
+                    reset();
+                    win.focus();
+                    win.setAlwaysOnTop(true);
+                    found = false;
+                }
+            }, 10000);
+
             monitor.setCallbacks(
+
                 // on game loading (every tick)
                 function() {
                     // console.log("sup loading");
                 },
                 // on game loaded
                 function() {
-                    // console.log("found");
                     found = true;
                     win.setAlwaysOnTop(false);
-                    // win.blur();
-                    // win.leaveKioskMode();
                     win.minimize();
+
+                    clearTimeout(timeOut);
                 },
                 // on game closed
                 function () {
-                    // console.log("closed");
                     reset();
                     win.focus();
                     win.setAlwaysOnTop(true);
-                    // win.enterKioskMode();
                     found = false;
                 }
             )

@@ -25,3 +25,5 @@ launcher/bower_components
 
 _launcherData
 _gameData
+
+node-webkit/debug.log

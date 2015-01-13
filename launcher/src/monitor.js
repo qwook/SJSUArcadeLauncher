@@ -37,7 +37,7 @@ function Monitor(exename) {
 
 Monitor.prototype.start = function() {
     console.log("Tried to start");
-    
+
     // Make sure to keep this monitor running asynchroniously.
     // This will allow us to run other classes as coroutines.
     async.whilst(
