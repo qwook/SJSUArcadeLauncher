@@ -27,3 +27,5 @@ _launcherData
 _gameData
 
 node-webkit/debug.log
+
+statistics.json

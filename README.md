@@ -1,22 +1,42 @@
 # SJSU GameDev Arcade Launcher
 An arcade launcher, similiar to the Winnitron launcher, but open source and released under the MIT license.
 
-## Dependencies
-[nodejs v0.10.*](http://nodejs.org)  
-[node-webkit v0.8.4](https://github.com/rogerwang/node-webkit)  
-Python 2.7 (For dependency compiling)  
+# launcherConfig.json
+In order for the launcher to work, it must have a configuration file named launcherConfig.json
 
-## Installation
-Run `npm install` to install node dependencies.
-
-For FFI to work, you need to download nw-gyp using `npm install -g nw-gyp`  
-Then call `nw-gyp clean configure build --target=0.8.4` on the folders:  
-`node_modules/ffi/` and `/node_modules/ffi/node_modules/ref/`  
-
-*todo: make a file that automates this process*
-
-## Binaries
-*Coming soon*
+```
+{
+    // This is for when you want an arcade machine to display
+    // a subset of the games available.
+    "presetList" :
+    [
+        {
+            // Give the preset a name
+            "presetName": "Action",
+            // And a list of ID's
+            "gameList": ["TurtlesInTime", "Contra""]
+        }
+    ],
+    
+    "gameList" :
+    [
+        {
+            // A clean, short, and unique ID with no spaces.
+            "gameId": "TurtlesInTime",
+            // The full name to be displayed on the machine.
+            "gameName": "Teenage Mutant Ninja Turtles: Turtles In Time",
+            // Short description of the game to be displayed.
+            "gameDescription: "Teenage Mutant Ninja Turtles: Turtles in Time, released as Teenage Mutant Hero Turtles: Turtles in Time in Europe, is an arcade video game produced by Konami",
+            // List of authors of the game to be displayed.
+            "gameAuthor": "Konami", "Mutsuhiko Izumi", "Kozo Nakamura",
+            // Path to the game relative to this file.
+            "executablePath" : "_gameData/tmnt/game/tmnt.exe",
+            // Path to a screenshot relative to this file.
+            "screenshotName" : "_launcherData/kiss_screenshot.png"
+        }
+    ]
+}
+```
 
 ## License
 

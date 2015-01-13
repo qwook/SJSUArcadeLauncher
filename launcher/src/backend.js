@@ -50,9 +50,6 @@ var configStr;
 if (fs.existsSync(CONFIG_PATH)) {
     configStr = fs.readFileSync(CONFIG_PATH, {encoding: "utf8"});
     WORKING_DIRECTORY = path.join(path.dirname(process.execPath), "..");
-// } else if (fs.existsSync(CONFIG_PATH_DEV)) {
-//     configStr = fs.readFileSync(CONFIG_PATH_DEV, {encoding: "utf8"});
-//     WORKING_DIRECTORY = process.cwd();
 } else {
     console.error("Cannot find config file!");
 }
@@ -60,23 +57,56 @@ if (fs.existsSync(CONFIG_PATH)) {
 var config = JSON.parse(stripJSON(configStr));
 var preset = -1;
 
+var STATISTICS_FILE = path.join(WORKING_DIRECTORY, "statistics.json");
+// create statistics file if it doesn't exist
+if (!fs.existsSync(STATISTICS_FILE)) {
+    fs.writeFileSync(STATISTICS_FILE, '{}');
+}
+
+function getGameStatistics() {
+    return JSON.parse(fs.readFileSync(STATISTICS_FILE, {encoding: "utf8"}).substring(11));
+}
+
+function saveGameStatistics(statistics) {
+    fs.writeFileSync(STATISTICS_FILE, "statistics="+JSON.stringify(statistics));
+}
+
+function addPlayTime(game, time) {
+    var statistics = getGameStatistics();
+    statistics[game] = statistics[game] || {
+        playTime: 0,
+        playCount: 0
+    };
+
+    statistics[game].playTime += time;
+
+    saveGameStatistics(statistics);
+}
+
+function addPlayCount(game) {
+    var statistics = getGameStatistics();
+    statistics[game] = statistics[game] || {
+        playTime: 0,
+        playCount: 0
+    };
+
+    statistics[game].playCount++;
+
+    saveGameStatistics(statistics);
+}
+
 function loadAllGames() {
     // load games in config file
     for (id in config.gameList)
     {
         var gameInfo = config.gameList[id];
 
-        // var gameInfoStr = fs.readFileSync(path.join(WORKING_DIRECTORY, game.folderPath, "gameInfo.json"), {encoding: "utf8"});
-        // var gameInfo = JSON.parse(stripJSON(gameInfoStr));
-
         insertGame({
             "name": gameInfo.gameName,
             "authors": [gameInfo.gameAuthors],
             "description": gameInfo.gameDescription,
-            // "screenshot": "file:///" + path.join(WORKING_DIRECTORY, game.folderPath, gameInfo.screenshotName).replace(/\\/gm, "/"),
-            // "data": { "path": game.folderPath, "exe": gameInfo.executablePath }
             "screenshot": "file:///" + path.join(WORKING_DIRECTORY, gameInfo.screenshotName).replace(/\\/gm, "/"),
-            "data": { "path": "/", "exe": gameInfo.executablePath }
+            "data": { "id": gameInfo.gameId, "path": "/", "exe": gameInfo.executablePath }
         });
     }
 }
@@ -122,11 +152,15 @@ setPresetCallback(function() {
 
 // if (has_windows) {
     setLaunchGameCallback(function(data) {
+        addPlayCount(data.id);
+
         console.log(path.join(WORKING_DIRECTORY, data.path, data.exe));
         cp.exec("\"" + path.join(WORKING_DIRECTORY, data.path, data.exe) + "\"");
         setTimeout(function() {
             var found = false;
             var monitor = new Monitor(path.basename(data.exe));
+
+            var gameTimeStart;
 
             // I'm giving this thing 10 seconds to load...
             var timeOut = setTimeout(function() {
@@ -151,8 +185,9 @@ setPresetCallback(function() {
                     found = true;
                     win.setAlwaysOnTop(false);
                     win.minimize();
-
                     clearTimeout(timeOut);
+
+                    gameTimeStart = (new Date()).getTime() / 60000
                 },
                 // on game closed
                 function () {
@@ -160,6 +195,12 @@ setPresetCallback(function() {
                     win.focus();
                     win.setAlwaysOnTop(true);
                     found = false;
+
+                    var currentTime = (new Date()).getTime() / 60000;
+                    var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+
+                    // save to the statistics the game time.
+                    addPlayTime(data.id, gamePlayTime);
                 }
             )
             monitor.start();
