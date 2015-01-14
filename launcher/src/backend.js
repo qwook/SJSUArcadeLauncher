@@ -106,7 +106,7 @@ function loadAllGames() {
             "authors": [gameInfo.gameAuthors],
             "description": gameInfo.gameDescription,
             "screenshot": "file:///" + path.join(WORKING_DIRECTORY, gameInfo.screenshotName).replace(/\\/gm, "/"),
-            "data": { "id": gameInfo.gameId, "path": "/", "exe": gameInfo.executablePath }
+            "data": { "id": gameInfo.gameId, "path": "/", "exe": gameInfo.executablePath, "autohotkey": gameInfo.ahkHacks }
         });
     }
 }
@@ -132,7 +132,7 @@ function loadPresetGame(id) {
             // "screenshot": "file:///" + path.join(WORKING_DIRECTORY, gameInfo.folderPath, gameInfo.screenshotName).replace(/\\/gm, "/"),
             // "data": { "path": gameInfo.folderPath, "exe": gameInfo.executablePath }
             "screenshot": "file:///" + path.join(WORKING_DIRECTORY, gameInfo.screenshotName).replace(/\\/gm, "/"),
-            "data": { "path": "/", "exe": gameInfo.executablePath }
+            "data": { "path": "/", "exe": gameInfo.executablePath, "autohotkey": gameInfo.ahkHacks }
         });
     }
 }
@@ -156,6 +156,22 @@ setPresetCallback(function() {
 
         console.log(path.join(WORKING_DIRECTORY, data.path, data.exe));
         cp.exec("\"" + path.join(WORKING_DIRECTORY, data.path, data.exe) + "\"");
+
+        console.log(data);
+
+        var ahk;
+        if (data.autohotkey != undefined && data.autohotkey.length > 0) {
+            ahk = cp.exec("\"" + path.join(WORKING_DIRECTORY, data.path, data.autohotkey) + "\""
+            , function (error, stdout, stderr){
+                console.log('stdout: ' + stdout);
+                console.log('stderr: ' + stderr);
+                if (error !== null) {
+                  console.log('exec error: ' + error);
+                }
+            });
+            console.log("\"" + path.join(WORKING_DIRECTORY, data.path, data.autohotkey) + "\"");
+        }
+
         setTimeout(function() {
             var found = false;
             var monitor = new Monitor(path.basename(data.exe));
@@ -171,6 +187,11 @@ setPresetCallback(function() {
                     win.focus();
                     win.setAlwaysOnTop(true);
                     found = false;
+
+                    if (ahk != undefined) {
+                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+                        console.log(['/F', '/IM', path.basename(data.autohotkey)]);
+                    }
                 }
             }, 10000);
 
@@ -201,6 +222,11 @@ setPresetCallback(function() {
 
                     // save to the statistics the game time.
                     addPlayTime(data.id, gamePlayTime);
+
+                    if (ahk != undefined) {
+                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+                        console.log(['/F', '/IM', path.basename(data.autohotkey)]);
+                    }
                 }
             )
             monitor.start();

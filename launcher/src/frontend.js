@@ -150,6 +150,14 @@ function setPresetCallback(cb) {
 
 $(document).keydown(function(e) {
     switch (e.keyCode) {
+        // + button
+        case 187:
+            var win = gui.Window.get();
+            win.leaveKioskMode();
+            win.setAlwaysOnTop(false);
+            win.showDevTools();
+            break;
+
         case 65:
         case 37:
             moveRight();
@@ -158,6 +166,7 @@ $(document).keydown(function(e) {
         case 39:
             moveLeft();
             break;
+
         case 13:
         case 49:
         case 50:
@@ -175,12 +184,15 @@ $(document).keydown(function(e) {
         case 191:
             launchGame();
             break;
+
         case 32:
             reset();
             break;
+
         case 90:
             presetChange();
             break;
+
         default:
             console.log(e)
             console.log(e.keyCode)
