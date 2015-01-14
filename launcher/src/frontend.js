@@ -24,6 +24,14 @@ function moveLeft() {
         left
             .removeClass("left")
             .addClass("featured")
+    } else {
+        $('.gameshow')
+            .removeClass("featured")
+            .removeClass("right")
+            .addClass("left")
+        .last()
+            .addClass("featured")
+            .removeClass("left")
     }
 
     hideOthers();
@@ -44,6 +52,14 @@ function moveRight() {
         right
             .removeClass("right")
             .addClass("featured")
+    } else {
+        $('.gameshow')
+            .removeClass("featured")
+            .removeClass("left")
+            .addClass("right")
+        .first()
+            .addClass("featured")
+            .removeClass("right")
     }
 
     hideOthers();
