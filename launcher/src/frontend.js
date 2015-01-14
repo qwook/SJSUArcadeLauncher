@@ -25,13 +25,21 @@ function moveLeft() {
             .removeClass("left")
             .addClass("featured")
     } else {
-        $('.gameshow')
+        var gameshows = $('.gameshow')
+            .addClass("notransition")
             .removeClass("featured")
             .removeClass("right")
             .addClass("left")
-        .last()
+            .each(function(i, el) {
+                el.offsetHeight;
+            });
+
+        gameshows.removeClass("notransition");
+
+        gameshows.last()
             .addClass("featured")
-            .removeClass("left")
+            .removeClass("left");
+
     }
 
     hideOthers();
@@ -53,13 +61,20 @@ function moveRight() {
             .removeClass("right")
             .addClass("featured")
     } else {
-        $('.gameshow')
+        var gameshows = $('.gameshow')
+            .addClass("notransition")
             .removeClass("featured")
             .removeClass("left")
             .addClass("right")
-        .first()
+            .each(function(i, el) {
+                el.offsetHeight;
+            });
+
+        gameshows.removeClass("notransition");
+
+        gameshows.first()
             .addClass("featured")
-            .removeClass("right")
+            .removeClass("right");
     }
 
     hideOthers();
