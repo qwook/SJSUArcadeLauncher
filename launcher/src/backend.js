@@ -213,8 +213,9 @@ setPresetCallback(function() {
                 // on game closed
                 function () {
                     reset();
-                    win.focus();
                     win.setAlwaysOnTop(true);
+                    win.focus();
+                    clearTimeout(timeOut);
                     found = false;
 
                     var currentTime = (new Date()).getTime() / 60000;

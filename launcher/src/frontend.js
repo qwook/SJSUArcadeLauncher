@@ -198,9 +198,11 @@ $(document).keydown(function(e) {
             moveLeft();
             break;
 
-        case 13:
         case 49:
         case 50:
+			break;
+			
+        case 13:
         case 70:
         case 71:
         case 72:
@@ -213,6 +215,8 @@ $(document).keydown(function(e) {
         case 188:
         case 190:
         case 191:
+            console.log(e)
+            console.log(e.keyCode)
             launchGame();
             break;
 
