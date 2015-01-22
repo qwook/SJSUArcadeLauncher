@@ -126,6 +126,19 @@ function reset() {
     launching = false;
 }
 
+var audioElement = $("<audio loop></audio>")
+$("body").append(audioElement);
+function playBackgroundMusic(music) {
+	console.log(music);
+	audioElement[0].src = music;
+	audioElement[0].play();
+}
+
+function stopBackgroundMusic() {
+	audioElement[0].src = "";
+	audioElement[0].pause();
+}
+
 function insertGame(data) {
     // todo: switch to templating system and use handlebar
     // but it's way too simple to have that...

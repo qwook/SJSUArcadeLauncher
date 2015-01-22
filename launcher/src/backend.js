@@ -137,6 +137,11 @@ function loadPresetGame(id) {
     }
 }
 
+function playBackgroundMusicBackend() {
+	if (!config.backgroundMusic) return;
+	playBackgroundMusic("file:///" + path.join(WORKING_DIRECTORY, config.backgroundMusic).replace(/\\/gm, "/"));
+}
+
 setPresetCallback(function() {
     preset = (preset + 1) % (config.presetList.length + 1);
     clearGames();
@@ -184,6 +189,7 @@ setPresetCallback(function() {
                     monitor.kill();
 
                     reset();
+					playBackgroundMusicBackend();
                     win.focus();
                     win.setAlwaysOnTop(true);
                     found = false;
@@ -203,16 +209,19 @@ setPresetCallback(function() {
                 },
                 // on game loaded
                 function() {
+					stopBackgroundMusic();
+
                     found = true;
                     win.setAlwaysOnTop(false);
                     win.minimize();
                     clearTimeout(timeOut);
-
+					
                     gameTimeStart = (new Date()).getTime() / 60000
                 },
                 // on game closed
                 function () {
                     reset();
+					playBackgroundMusicBackend();
                     win.setAlwaysOnTop(true);
                     win.focus();
                     clearTimeout(timeOut);
@@ -236,9 +245,11 @@ setPresetCallback(function() {
 // }
 
 loadAllGames();
+playBackgroundMusicBackend();
 
 } catch(err) {
 
+	console.log(err.stack);
     console.error(err);
 
 }
