@@ -204,11 +204,11 @@ $(document).keydown(function(e) {
 
         case 65:
         case 37:
-            moveRight();
+            moveLeft();
             break;
         case 68:
         case 39:
-            moveLeft();
+            moveRight();
             break;
 
         case 49:

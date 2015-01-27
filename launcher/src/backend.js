@@ -37,7 +37,7 @@ $("#games").html(""); // clear the games for backend
 
 // Try to find the config.json file!
 // var CONFIG_PATH = path.join(path.dirname(process.execPath), "launcherConfig.json");
-var CONFIG_PATH = path.join(path.dirname(process.execPath), "../launcherConfig.json");
+var CONFIG_PATH = path.join(path.dirname(process.execPath), "..", "arcadeData", "launcherConfig.json");
 // var CONFIG_PATH_DEV = path.join(process.cwd(), "launcherConfig.json");
 
 console.log(CONFIG_PATH);
@@ -105,7 +105,7 @@ function loadAllGames() {
             "name": gameInfo.gameName,
             "authors": [gameInfo.gameAuthors],
             "description": gameInfo.gameDescription,
-            "screenshot": "file:///" + path.join(WORKING_DIRECTORY, gameInfo.screenshotName).replace(/\\/gm, "/"),
+            "screenshot": "file:///" + path.join(WORKING_DIRECTORY, "arcadeData", gameInfo.screenshotName).replace(/\\/gm, "/"),
             "data": { "id": gameInfo.gameId, "path": "/", "exe": gameInfo.executablePath, "autohotkey": gameInfo.ahkHacks }
         });
     }
@@ -131,7 +131,7 @@ function loadPresetGame(id) {
             "description": gameInfo.gameDescription,
             // "screenshot": "file:///" + path.join(WORKING_DIRECTORY, gameInfo.folderPath, gameInfo.screenshotName).replace(/\\/gm, "/"),
             // "data": { "path": gameInfo.folderPath, "exe": gameInfo.executablePath }
-            "screenshot": "file:///" + path.join(WORKING_DIRECTORY, gameInfo.screenshotName).replace(/\\/gm, "/"),
+            "screenshot": "file:///" + path.join(WORKING_DIRECTORY, "arcadeData", gameInfo.screenshotName).replace(/\\/gm, "/"),
             "data": { "path": "/", "exe": gameInfo.executablePath, "autohotkey": gameInfo.ahkHacks }
         });
     }
@@ -139,7 +139,7 @@ function loadPresetGame(id) {
 
 function playBackgroundMusicBackend() {
 	if (!config.backgroundMusic) return;
-	playBackgroundMusic("file:///" + path.join(WORKING_DIRECTORY, config.backgroundMusic).replace(/\\/gm, "/"));
+	playBackgroundMusic("file:///" + path.join(WORKING_DIRECTORY, "arcadeData", config.backgroundMusic).replace(/\\/gm, "/"));
 }
 
 setPresetCallback(function() {
@@ -159,14 +159,14 @@ setPresetCallback(function() {
     setLaunchGameCallback(function(data) {
         addPlayCount(data.id);
 
-        console.log(path.join(WORKING_DIRECTORY, data.path, data.exe));
-        cp.exec("\"" + path.join(WORKING_DIRECTORY, data.path, data.exe) + "\"");
+        console.log(path.join(WORKING_DIRECTORY, "arcadeData", data.path, data.exe));
+        cp.exec("\"" + path.join(WORKING_DIRECTORY, "arcadeData", data.path, data.exe) + "\"");
 
         console.log(data);
 
         var ahk;
         if (data.autohotkey != undefined && data.autohotkey.length > 0) {
-            ahk = cp.exec("\"" + path.join(WORKING_DIRECTORY, data.path, data.autohotkey) + "\""
+            ahk = cp.exec("\"" + path.join(WORKING_DIRECTORY, "arcadeData", data.path, data.autohotkey) + "\""
             , function (error, stdout, stderr){
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
@@ -174,7 +174,7 @@ setPresetCallback(function() {
                   console.log('exec error: ' + error);
                 }
             });
-            console.log("\"" + path.join(WORKING_DIRECTORY, data.path, data.autohotkey) + "\"");
+            console.log("\"" + path.join(WORKING_DIRECTORY, "arcadeData", data.path, data.autohotkey) + "\"");
         }
 
         setTimeout(function() {
