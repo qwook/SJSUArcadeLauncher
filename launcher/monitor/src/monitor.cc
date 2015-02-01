@@ -1,11 +1,13 @@
 #include <node.h>
 #include <v8.h>
 
+#include <sstream>
 #include <iostream>
 #include <vector>
 #include <string>
 #include <utility>
 #include <algorithm>
+#include <ctime>
 
 #include <windows.h>
 #include <tlhelp32.h>
@@ -25,12 +27,14 @@ HANDLE processHandle = NULL;
 bool foundhWnd = false;
 DWORD processThreadId = NULL;
 HWND hWnd = NULL;
+clock_t startTime;
 
 std::vector<HWND> hWnds;
 
 v8::Persistent<v8::Function> cbLoading;
 v8::Persistent<v8::Function> cbFound;
 v8::Persistent<v8::Function> cbClosed;
+v8::Persistent<v8::Function> cbLog;
 
 struct Size {
 	long width;
@@ -106,6 +110,20 @@ void CallClosedCallback() {
 	// MessageBox (NULL, "c_cb", " c_cb", MB_OK);
 }
 
+void LogCallback(std::string &string) {
+
+	Handle<String> arg = String::NewFromUtf8(v8::Isolate::GetCurrent(), string.c_str());
+
+	v8::Handle<v8::Value> args[] = {
+		arg
+	};
+
+	// v8::Handle<v8::Value> *args = NULL;
+
+	v8::Local<v8::Function> value = v8::Local<v8::Function>::New(v8::Isolate::GetCurrent(), cbLog);
+	value->Call(value, 1, args);
+}
+
 void Start(const FunctionCallbackInfo<Value>& args) {
 	// std::cout << "Start" << std::endl;
 	currentThreadId = GetCurrentThreadId();
@@ -122,11 +140,17 @@ void Start(const FunctionCallbackInfo<Value>& args) {
 	::processThreadId = NULL;
 	::hWnd = NULL;
 
+	::startTime = clock();
+
 	// MessageBox (NULL, "start", exeName.c_str(), MB_OK);
 	std::cout << "Bleh" << std::endl;
 }
 
 void Tick(const FunctionCallbackInfo<Value>& args) {
+	if (clock() <= ::startTime) {return;}
+
+	::startTime = clock() + 500;
+
 	if (!::foundProcess) {
 	// step 1. we haven't found the process yet
     // dedicate each tick to finding the process.
@@ -138,6 +162,8 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 		HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		PROCESSENTRY32 entry;
 
+		std::stringstream ss;
+
 	    // Loop through all the processes in our snapshot
 		bool looping = Process32First(snapshot, &entry);
 		do {
@@ -145,13 +171,62 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 			std::transform(szExeFile.begin(), szExeFile.end(), szExeFile.begin(), toupper);
 			std::transform(exeName.begin(), exeName.end(), exeName.begin(), toupper);
 
+			LogCallback(szExeFile);
+
 			if (szExeFile.compare(exeName) == 0) {
 				::processId = entry.th32ProcessID;
 				::processHandle = OpenProcess(0x0001 | 0x0800 | 0x1000, true, ::processId);
-				::foundProcess = true;
+
+				// inserted window finding here
+
+				hWnds.clear();
+				EnumWindows([](HWND hWnd, LPARAM lParam)->BOOL{
+					hWnds.push_back(hWnd);
+					return true;
+				}, 0);
+
+
+				for (HWND hWnd : hWnds) {
+
+					if (IsWindow(hWnd) && IsWindowVisible(hWnd)) {
+						DWORD processId;
+						DWORD threadId = GetWindowThreadProcessId(hWnd, &processId);
+
+							// char test[200];
+							// sprintf(test, "%d == %d", processId, ::processId);
+							// MessageBox (NULL, test, test, MB_OK);
+
+						if (processId == ::processId && !::foundhWnd) {
+							Size size = GetWindowSize(hWnd);
+							Size screenSize = GetScreenSize();
+
+							// char test[200];
+							// sprintf(test, "%d == %d, %d == %d", size.width, screenSize.width, size.height, screenSize.height);
+							// MessageBox (NULL, test, test, MB_OK);
+
+							if (size.width == screenSize.width && size.height == screenSize.height) {
+								::foundProcess = true;
+								::foundhWnd = true;
+								::processThreadId = threadId;
+								::hWnd = hWnd;
+								CallFoundCallback();
+								CloseHandle(snapshot);
+								return;
+							}
+						}
+					}
+
+				}
+
 			}
+
 			looping = Process32Next(snapshot, &entry);
 		} while (looping);
+
+		// char test[200];
+		// sprintf(test, "%d == %d", processId, ::processId);
+		// MessageBox (NULL, ss.str().c_str(), "test", MB_OK);
+		// std::cout << ss.str() << std::endl;
 
 	    // Clean up
 	    CloseHandle(snapshot);
@@ -159,84 +234,95 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 	// step 2. so we found the process,
     // now we need to find the window that goes with the process.
 
-		hWnds.clear();
-		EnumWindows([](HWND hWnd, LPARAM lParam)->BOOL{
-			hWnds.push_back(hWnd);
-			return true;
-		}, 0);
+		// hWnds.clear();
+		// EnumWindows([](HWND hWnd, LPARAM lParam)->BOOL{
+		// 	hWnds.push_back(hWnd);
+		// 	return true;
+		// }, 0);
 
-		for (HWND hWnd : hWnds) {
+		// for (HWND hWnd : hWnds) {
 
-			if (IsWindow(hWnd) && IsWindowVisible(hWnd)) {
-				DWORD processId;
-				DWORD threadId = GetWindowThreadProcessId(hWnd, &processId);
+		// 	if (IsWindow(hWnd) && IsWindowVisible(hWnd)) {
+		// 		DWORD processId;
+		// 		DWORD threadId = GetWindowThreadProcessId(hWnd, &processId);
 
-					// char test[200];
-					// sprintf(test, "%d == %d", processId, ::processId);
-					// MessageBox (NULL, test, test, MB_OK);
+		// 			// char test[200];
+		// 			// sprintf(test, "%d == %d", processId, ::processId);
+		// 			// MessageBox (NULL, test, test, MB_OK);
 
-				if (processId == ::processId && !::foundhWnd) {
-					Size size = GetWindowSize(hWnd);
-					Size screenSize = GetScreenSize();
+		// 		if (processId == ::processId && !::foundhWnd) {
+		// 			Size size = GetWindowSize(hWnd);
+		// 			Size screenSize = GetScreenSize();
 
-					// char test[200];
-					// sprintf(test, "%d == %d, %d == %d", size.width, screenSize.width, size.height, screenSize.height);
-					// MessageBox (NULL, test, test, MB_OK);
+		// 			// char test[200];
+		// 			// sprintf(test, "%d == %d, %d == %d", size.width, screenSize.width, size.height, screenSize.height);
+		// 			// MessageBox (NULL, test, test, MB_OK);
 
-					if (size.width == screenSize.width && size.height == screenSize.height) {
-						::foundhWnd = true;
-						::processThreadId = threadId;
-						::hWnd = hWnd;
-						CallFoundCallback();
-						return;
-					}
-				}
-			}
+		// 			if (size.width == screenSize.width && size.height == screenSize.height) {
+		// 				::foundhWnd = true;
+		// 				::processThreadId = threadId;
+		// 				::hWnd = hWnd;
+		// 				CallFoundCallback();
+		// 				break;;
+		// 			}
+		// 		}
+		// 	}
 
-		}
+		// }
 
 	} else if (IsWindow(::hWnd) && IsProcessRunning(::processHandle)) {
     // step 3. we've found the window, and it is up and running!
 
         // attach to the foreground window (this ensures that
         // we have permission to bring windows into focus)
-		DWORD fgProcessId;
-		DWORD fgThreadId = GetWindowThreadProcessId(GetForegroundWindow(), &fgProcessId);
-		AttachThreadInput(::currentThreadId, fgThreadId, true);
-		AttachThreadInput(::processThreadId, ::currentThreadId, true);
+		// DWORD fgProcessId;
+		// DWORD fgThreadId = GetWindowThreadProcessId(GetForegroundWindow(), &fgProcessId);
+		// AttachThreadInput(::currentThreadId, fgThreadId, true);
+		// AttachThreadInput(::processThreadId, ::currentThreadId, true);
 
 		// check if our window is in focus
 		// if it isn't, then bring it to focus
 		if (GetForegroundWindow() != ::hWnd) {
             // ping the window to check if it's responding
-			DWORD_PTR result;
-			LRESULT hung = SendMessageTimeoutW(
-				::hWnd,
-				WM_GETTEXT,
-				0,
-				0,
-				SMTO_ABORTIFHUNG | SMTO_BLOCK,
-				1000,
-				&result
-				);
+			// DWORD_PTR result;
+			// LRESULT hung = SendMessageTimeoutW(
+			// 	::hWnd,
+			// 	WM_GETTEXT,
+			// 	0,
+			// 	0,
+			// 	SMTO_ABORTIFHUNG | SMTO_BLOCK,
+			// 	1000,
+			// 	&result
+			// 	);
 
 			// application is hung, we should exit.
-			if (hung == 0) {
-				TerminateProcess(::processHandle, 1);
-			}
+			// if (hung == 0) {
+				// TerminateProcess(::processHandle, 1);
+			// }
 			
 			// ShowWindow(::hWnd, 0); // hide
-			ShowWindow(::hWnd, 9); // show
-			SetFocus(::hWnd);
-            // ^^ (I know, it's hacky.)
-			SetForegroundWindow(::hWnd);
-			SetActiveWindow(::hWnd);
+			// ShowWindow(::hWnd, 9); // show
+			// SetFocus(::hWnd);
+   //          // ^^ (I know, it's hacky.)
+			// SetForegroundWindow(::hWnd);
+			// SetActiveWindow(::hWnd);
+
+			// SetForegroundWindow(::hWnd);
+			// SetCapture(::hWnd);
+			// SetFocus(::hWnd);
+			// SetActiveWindow(::hWnd);
+			// EnableWindow(::hWnd, TRUE);
+			// ShowWindow(::hWnd, 0); // hide
+			// ShowWindow(::hWnd, 9); // show
+			// BringWindowToTop(::hWnd);
+
+			// SetWindowPos(::hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW || SWP_NOMOVE || SWP_NOSIZE);
 		}
 
 		// remove all attachments to the foreground window
         // (we don't need it until next tick)
-		AttachThreadInput(::processThreadId, ::currentThreadId, false);
-		AttachThreadInput(::currentThreadId, fgThreadId, false);
+		// AttachThreadInput(::processThreadId, ::currentThreadId, false);
+		// AttachThreadInput(::currentThreadId, fgThreadId, false);
 
 	} else if (!IsProcessRunning(::processHandle)) {
     // step 4. process is closed! kill everything!
@@ -270,6 +356,9 @@ void SetCallbacks(const FunctionCallbackInfo<Value>& args) {
 
 	Handle<Function> cbClosedHandle = Handle<Function>::Cast(args[2]);
 	cbClosed.Reset(args.GetIsolate(), cbClosedHandle);
+
+	Handle<Function> cbLogHandle = Handle<Function>::Cast(args[3]);
+	cbLog.Reset(args.GetIsolate(), cbLogHandle);
 
 	// MessageBox (NULL, "set callbacks", "set callbacks", MB_OK);
 }

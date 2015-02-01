@@ -26,6 +26,8 @@ function MAKELANGID(p, s) { return (s << 10) | p }
  * @param {String} exename Name of the executable to monitor.
  */
 function Monitor(exename) {
+    console.log(exename);
+
     monitor.Start(exename);
 
     monitor.SetCallbacks(
@@ -73,7 +75,10 @@ Monitor.prototype.setCallbacks = function(loadingCallback, foundCallback, closed
     monitor.SetCallbacks(
         loadingCallback,
         foundCallback,
-        closedCallback
+        closedCallback,
+        function(arg) {
+            console.log(arg)
+        }
     );
 }
 

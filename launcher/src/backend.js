@@ -159,8 +159,11 @@ setPresetCallback(function() {
     setLaunchGameCallback(function(data) {
         addPlayCount(data.id);
 
+        win.setAlwaysOnTop(false);
+
         console.log(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe));
-        cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
+        // cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
+        cp.spawn(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe), {detached: true});
 
         console.log(data);
 
@@ -213,7 +216,7 @@ setPresetCallback(function() {
 
                     found = true;
                     win.setAlwaysOnTop(false);
-                    win.minimize();
+                    // win.minimize();
                     clearTimeout(timeOut);
 					
                     gameTimeStart = (new Date()).getTime() / 60000
