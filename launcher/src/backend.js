@@ -157,15 +157,16 @@ setPresetCallback(function() {
 
 // if (has_windows) {
     setLaunchGameCallback(function(data) {
+        var found = false;
+        var monitor = new Monitor(path.basename(data.exe));
+
+        var gameTimeStart = (new Date()).getTime() / 60000;
+
         addPlayCount(data.id);
 
         win.setAlwaysOnTop(false);
 
         console.log(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe));
-
-        cp.spawn(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe), {detached: true});
-
-        console.log(data);
 
         var ahk;
         if (data.autohotkey != undefined && data.autohotkey.length > 0) {
@@ -180,11 +181,49 @@ setPresetCallback(function() {
             console.log("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.autohotkey) + "\"");
         }
 
-        setTimeout(function() {
-            var found = false;
-            var monitor = new Monitor(path.basename(data.exe));
+        try {
+	        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"", function() {
 
-            var gameTimeStart;
+		        // spawned the child process
+	        
+				stopBackgroundMusic();
+
+		        found = true;
+		        win.setAlwaysOnTop(false);
+		        // win.minimize();
+		        // clearTimeout(timeOut);
+				
+		        gameTimeStart = (new Date()).getTime() / 60000
+
+	        });
+
+	        childProcess.on('exit', function() {
+	            reset();
+				playBackgroundMusicBackend();
+	            win.setAlwaysOnTop(true);
+	            win.focus();
+	            // clearTimeout(timeOut);
+	            found = false;
+
+	            var currentTime = (new Date()).getTime() / 60000;
+	            var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+
+	            // save to the statistics the game time.
+	            addPlayTime(data.id, gamePlayTime);
+
+	            if (ahk != undefined) {
+	                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+	                console.log(['/F', '/IM', path.basename(data.autohotkey)]);
+	            }
+	        });
+	    } catch (e) {
+            reset();
+			playBackgroundMusicBackend();
+            win.setAlwaysOnTop(true);
+            win.focus();
+	    }
+
+        // setTimeout(function() {
 
             // I'm giving this thing 10 seconds to load...
      //        var timeOut = setTimeout(function() {
@@ -204,46 +243,46 @@ setPresetCallback(function() {
      //            }
      //        }, 10000);
 
-            monitor.setCallbacks(
+     //        monitor.setCallbacks(
 
-                // on game loading (every tick)
-                function() {
-                    // console.log("sup loading");
-                },
-                // on game loaded
-                function() {
-					stopBackgroundMusic();
+     //            // on game loading (every tick)
+     //            function() {
+     //                // console.log("sup loading");
+     //            },
+     //            // on game loaded
+     //            function() {
+					// stopBackgroundMusic();
 
-                    found = true;
-                    win.setAlwaysOnTop(false);
-                    // win.minimize();
-                    // clearTimeout(timeOut);
+     //                found = true;
+     //                win.setAlwaysOnTop(false);
+     //                // win.minimize();
+     //                // clearTimeout(timeOut);
 					
-                    gameTimeStart = (new Date()).getTime() / 60000
-                },
-                // on game closed
-                function () {
-                    reset();
-					playBackgroundMusicBackend();
-                    win.setAlwaysOnTop(true);
-                    win.focus();
-                    // clearTimeout(timeOut);
-                    found = false;
+     //                gameTimeStart = (new Date()).getTime() / 60000
+     //            },
+     //            // on game closed
+     //            function () {
+     //                reset();
+					// playBackgroundMusicBackend();
+     //                win.setAlwaysOnTop(true);
+     //                win.focus();
+     //                // clearTimeout(timeOut);
+     //                found = false;
 
-                    var currentTime = (new Date()).getTime() / 60000;
-                    var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+     //                var currentTime = (new Date()).getTime() / 60000;
+     //                var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
 
-                    // save to the statistics the game time.
-                    addPlayTime(data.id, gamePlayTime);
+     //                // save to the statistics the game time.
+     //                addPlayTime(data.id, gamePlayTime);
 
-                    if (ahk != undefined) {
-                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-                        console.log(['/F', '/IM', path.basename(data.autohotkey)]);
-                    }
-                }
-            )
-            monitor.start();
-        }, 1000);
+     //                if (ahk != undefined) {
+     //                    cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+     //                    console.log(['/F', '/IM', path.basename(data.autohotkey)]);
+     //                }
+     //            }
+     //        )
+     //        monitor.start();
+        // }, 1000);
     })
 // }
 

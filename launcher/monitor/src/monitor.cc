@@ -171,8 +171,6 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 			std::transform(szExeFile.begin(), szExeFile.end(), szExeFile.begin(), toupper);
 			std::transform(exeName.begin(), exeName.end(), exeName.begin(), toupper);
 
-			LogCallback(szExeFile);
-
 			if (szExeFile.compare(exeName) == 0) {
 				::processId = entry.th32ProcessID;
 				::processHandle = OpenProcess(0x0001 | 0x0800 | 0x1000, true, ::processId);
@@ -204,7 +202,11 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 							// sprintf(test, "%d == %d, %d == %d", size.width, screenSize.width, size.height, screenSize.height);
 							// MessageBox (NULL, test, test, MB_OK);
 
-							if (size.width == screenSize.width && size.height == screenSize.height) {
+							std::stringstream stream;
+							stream << screenSize.width << " " << size.width << " " << screenSize.height << " " << size.height;
+							LogCallback(stream.str());
+
+							// if (size.width == screenSize.width && size.height == screenSize.height) {
 								::foundProcess = true;
 								::foundhWnd = true;
 								::processThreadId = threadId;
@@ -212,7 +214,7 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 								CallFoundCallback();
 								CloseHandle(snapshot);
 								return;
-							}
+							// }
 						}
 					}
 
