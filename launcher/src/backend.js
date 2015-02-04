@@ -162,7 +162,7 @@ setPresetCallback(function() {
         win.setAlwaysOnTop(false);
 
         console.log(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe));
-        // cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
+
         cp.spawn(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe), {detached: true});
 
         console.log(data);
@@ -187,22 +187,22 @@ setPresetCallback(function() {
             var gameTimeStart;
 
             // I'm giving this thing 10 seconds to load...
-            var timeOut = setTimeout(function() {
-                if (found == false) {
-                    monitor.kill();
+     //        var timeOut = setTimeout(function() {
+     //            if (found == false) {
+     //                monitor.kill();
 
-                    reset();
-					playBackgroundMusicBackend();
-                    win.focus();
-                    win.setAlwaysOnTop(true);
-                    found = false;
+     //                reset();
+					// playBackgroundMusicBackend();
+     //                win.focus();
+     //                win.setAlwaysOnTop(true);
+     //                found = false;
 
-                    if (ahk != undefined) {
-                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-                        console.log(['/F', '/IM', path.basename(data.autohotkey)]);
-                    }
-                }
-            }, 10000);
+     //                if (ahk != undefined) {
+     //                    cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+     //                    console.log(['/F', '/IM', path.basename(data.autohotkey)]);
+     //                }
+     //            }
+     //        }, 10000);
 
             monitor.setCallbacks(
 
@@ -217,7 +217,7 @@ setPresetCallback(function() {
                     found = true;
                     win.setAlwaysOnTop(false);
                     // win.minimize();
-                    clearTimeout(timeOut);
+                    // clearTimeout(timeOut);
 					
                     gameTimeStart = (new Date()).getTime() / 60000
                 },
@@ -227,7 +227,7 @@ setPresetCallback(function() {
 					playBackgroundMusicBackend();
                     win.setAlwaysOnTop(true);
                     win.focus();
-                    clearTimeout(timeOut);
+                    // clearTimeout(timeOut);
                     found = false;
 
                     var currentTime = (new Date()).getTime() / 60000;
