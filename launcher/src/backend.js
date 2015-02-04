@@ -71,6 +71,20 @@ function saveGameStatistics(statistics) {
     fs.writeFileSync(STATISTICS_FILE, "statistics="+JSON.stringify(statistics));
 }
 
+var SAVE_FILE = path.join(WORKING_DIRECTORY, "savefile.json");
+// create save file if it doesn't exist
+if (!fs.existsSync(SAVE_FILE)) {
+    fs.writeFileSync(SAVE_FILE, 'savefile={}');
+}
+
+function getSaveFile() {
+    return JSON.parse(fs.readFileSync(SAVE_FILE, {encoding: "utf8"}).substring(9));
+}
+
+function saveSaveFile(statistics) {
+    fs.writeFileSync(SAVE_FILE, "statistics="+JSON.stringify(statistics));
+}
+
 function addPlayTime(game, time) {
     var statistics = getGameStatistics();
     statistics[game] = statistics[game] || {
@@ -112,6 +126,10 @@ function loadAllGames() {
 }
 
 function loadPresetGame(id) {
+	if (!config.presetList) {
+		loadAllGames();
+	}
+
     var allowed = config.presetList[id].gameList;
 
     // load games in config file
@@ -143,16 +161,22 @@ function playBackgroundMusicBackend() {
 }
 
 setPresetCallback(function() {
+	if (!config.presetList) return;
+
     preset = (preset + 1) % (config.presetList.length + 1);
     clearGames();
 
-    if (preset == config.presetList.length) {
+    if (!config.presetList[preset]) {
         setCategory();
         loadAllGames();
     } else {
         setCategory(config.presetList[preset].presetName);
         loadPresetGame(preset);
     }
+
+    var saveFile = getSaveFile();
+    saveFile.presetId = preset;
+    saveSaveFile(saveFile);
 })
 
 // if (has_windows) {
@@ -185,7 +209,7 @@ setPresetCallback(function() {
 	        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"", function() {
 
 		        // spawned the child process
-	        
+
 				stopBackgroundMusic();
 
 		        found = true;
@@ -286,7 +310,12 @@ setPresetCallback(function() {
     })
 // }
 
-loadAllGames();
+var saveFile = getSaveFile();
+if (saveFile.presetId) {
+	loadPresetGame(saveFile.presetId);
+} else {
+	loadAllGames();
+}
 playBackgroundMusicBackend();
 
 } catch(err) {
