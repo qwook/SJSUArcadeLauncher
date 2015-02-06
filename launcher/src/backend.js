@@ -252,7 +252,27 @@ setPresetCallback(function() {
 		        found = true;
 		        win.setAlwaysOnTop(false);
 		        win.blur();
+
+		        var blurTimeout;
 				
+	        	var monitor = new Monitor(path.basename(data.exe));
+	            monitor.setCallbacks(
+	                // on game loading (every tick)
+	                function() {
+	                },
+	                // on game loaded
+	                function() {
+	                	blurTimeout = setTimeout(function() {
+				        	win.minimize();
+				        }, 100);
+	                },
+	                // on game closed
+	                function () {
+			            clearTimeout(blurTimeout);
+	                }
+	            )
+	            monitor.start();
+
 		        gameTimeStart = (new Date()).getTime() / 60000
 
 		        childProcess.on('exit', function() {
@@ -260,6 +280,7 @@ setPresetCallback(function() {
 					playBackgroundMusicBackend();
 		            win.setAlwaysOnTop(true);
 		            win.focus();
+		            clearTimeout(blurTimeout);
 		            // clearTimeout(timeOut);
 		            found = false;
 
@@ -274,7 +295,7 @@ setPresetCallback(function() {
 		                console.log(['/F', '/IM', path.basename(data.autohotkey)]);
 		            }
 
-	                // monitor.kill();
+	                monitor.kill();
 		        });
 		    } catch (e) {
 	            reset();
