@@ -170,6 +170,14 @@ setPresetCallback(function() {
     saveSaveFile(saveFile);
 })
 
+var playingGame = false;
+
+setInterval(function() {
+	if (win.isKioskMode && !playingGame) {
+		win.focus();
+	}
+}, 100);
+
 // if (has_windows) {
     setLaunchGameCallback(function(data) {
         var found = false;
@@ -199,6 +207,7 @@ setPresetCallback(function() {
         if (data.useLegacyMonitor) {
 
 	        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
+	        playingGame = true;
 		        
         	var monitor = new Monitor(path.basename(data.exe).toUpperCase());
 
@@ -221,7 +230,7 @@ setPresetCallback(function() {
                 }
 
                 cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.exe)]);
-        	}, 10000);
+        	}, 25000);
 
             monitor.setCallbacks(
 
@@ -242,22 +251,30 @@ setPresetCallback(function() {
                 },
                 // on game closed
                 function () {
-                    reset();
-					playBackgroundMusicBackend();
-                    win.setAlwaysOnTop(true);
-                    win.focus();
+                	playingGame = false;
+	                monitor.kill();
+                    win.minimize();
 
-                    found = false;
+                	setTimeout(function() {
 
-                    var currentTime = (new Date()).getTime() / 60000;
-                    var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+	                    reset();
+						playBackgroundMusicBackend();
+	                    win.setAlwaysOnTop(true);
+	                    win.focus();
 
-                    // save to the statistics the game time.
-                    addPlayTime(data.id, gamePlayTime);
+	                    found = false;
 
-                    if (ahk != undefined) {
-                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-                    }
+	                    var currentTime = (new Date()).getTime() / 60000;
+	                    var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+
+	                    // save to the statistics the game time.
+	                    addPlayTime(data.id, gamePlayTime);
+
+	                    if (ahk != undefined) {
+	                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+	                    }
+
+                	}, 500);
                 }
             )
 
@@ -268,6 +285,7 @@ setPresetCallback(function() {
 
 	        try {
 		        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
+		        playingGame = true;
 
 		        // spawned the child process
 				stopBackgroundMusic();
@@ -286,7 +304,7 @@ setPresetCallback(function() {
 	                // on game loaded
 	                function() {
 	                	blurTimeout = setTimeout(function() {
-				        	win.minimize();
+				        	// win.minimize();
 				        }, 100);
 	                },
 	                // on game closed
@@ -299,26 +317,32 @@ setPresetCallback(function() {
 		        gameTimeStart = (new Date()).getTime() / 60000
 
 		        childProcess.on('exit', function() {
-		            reset();
-					playBackgroundMusicBackend();
-		            win.setAlwaysOnTop(true);
-		            win.focus();
-		            clearTimeout(blurTimeout);
-		            // clearTimeout(timeOut);
-		            found = false;
-
-		            var currentTime = (new Date()).getTime() / 60000;
-		            var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
-
-		            // save to the statistics the game time.
-		            addPlayTime(data.id, gamePlayTime);
-
-		            if (ahk != undefined) {
-		                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-		                console.log(['/F', '/IM', path.basename(data.autohotkey)]);
-		            }
-
+		        	playingGame = false;
 	                monitor.kill();
+                    win.minimize();
+
+	                setTimeout(function() {
+
+			            reset();
+						playBackgroundMusicBackend();
+			            win.setAlwaysOnTop(true);
+			            win.focus();
+			            clearTimeout(blurTimeout);
+			            // clearTimeout(timeOut);
+			            found = false;
+
+			            var currentTime = (new Date()).getTime() / 60000;
+			            var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+
+			            // save to the statistics the game time.
+			            addPlayTime(data.id, gamePlayTime);
+
+			            if (ahk != undefined) {
+			                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+			                console.log(['/F', '/IM', path.basename(data.autohotkey)]);
+			            }
+
+	                }, 500)
 		        });
 		    } catch (e) {
 	            reset();
@@ -393,7 +417,7 @@ setPresetCallback(function() {
 // }
 
 var saveFile = getSaveFile();
-console.log(saveFile);
+
 if (config.presetList && config.presetList[saveFile.presetId] && saveFile.presetId != undefined) {
     setCategory(config.presetList[saveFile.presetId].presetName);
 	loadPresetGame(saveFile.presetId);
