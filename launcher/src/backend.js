@@ -129,7 +129,7 @@ function loadAllGames() {
 }
 
 function loadPresetGame(id) {
-	if (!config.presetList || config.presetList[id]) {
+	if (!config.presetList || !config.presetList[id]) {
 		loadAllGames();
 	}
 	
@@ -394,8 +394,8 @@ setPresetCallback(function() {
 
 var saveFile = getSaveFile();
 console.log(saveFile);
-if (saveFile.presetId != undefined) {
-	console.log(config.presetList[saveFile.presetId]);
+if (config.presetList && config.presetList[saveFile.presetId] && saveFile.presetId != undefined) {
+    setCategory(config.presetList[saveFile.presetId].presetName);
 	loadPresetGame(saveFile.presetId);
 } else {
 	loadAllGames();
