@@ -199,7 +199,28 @@ setPresetCallback(function() {
 
 	        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
 		        
-        	var monitor = new Monitor(path.basename(data.exe));
+        	var monitor = new Monitor(path.basename(data.exe).toUpperCase());
+
+        	var timeOut = setTimeout(function() {
+                reset();
+				playBackgroundMusicBackend();
+                win.setAlwaysOnTop(true);
+                win.focus();
+
+                found = false;
+
+                var currentTime = (new Date()).getTime() / 60000;
+                var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+
+                // save to the statistics the game time.
+                addPlayTime(data.id, gamePlayTime);
+
+                if (ahk != undefined) {
+                    cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+                }
+
+                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.exe)]);
+        	}, 10000);
 
             monitor.setCallbacks(
 
@@ -215,6 +236,8 @@ setPresetCallback(function() {
                     win.blur();
 					
                     gameTimeStart = (new Date()).getTime() / 60000
+
+                    clearTimeout(timeOut);
                 },
                 // on game closed
                 function () {
@@ -233,7 +256,6 @@ setPresetCallback(function() {
 
                     if (ahk != undefined) {
                         cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-                        console.log(['/F', '/IM', path.basename(data.autohotkey)]);
                     }
                 }
             )

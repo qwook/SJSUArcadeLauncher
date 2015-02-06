@@ -149,7 +149,7 @@ void Start(const FunctionCallbackInfo<Value>& args) {
 void Tick(const FunctionCallbackInfo<Value>& args) {
 	if (clock() <= ::startTime) {return;}
 
-	::startTime = clock() + 500;
+	::startTime = clock() + 1;
 
 	if (!::foundProcess) {
 	// step 1. we haven't found the process yet
@@ -284,13 +284,13 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
         // attach to the foreground window (this ensures that
         // we have permission to bring windows into focus)
 		DWORD fgProcessId;
-		DWORD fgThreadId = GetWindowThreadProcessId(GetForegroundWindow(), &fgProcessId);
+		DWORD fgThreadId = GetWindowThreadProcessId(hWnd, &fgProcessId);
 		// AttachThreadInput(::currentThreadId, fgThreadId, true);
 		// AttachThreadInput(::processThreadId, ::currentThreadId, true);
 
 		// check if our window is in focus
 		// if it isn't, then bring it to focus
-		// if (GetForegroundWindow() != ::hWnd) {
+		if (GetForegroundWindow() != ::hWnd) {
             // ping the window to check if it's responding
 			// DWORD_PTR result;
 			// LRESULT hung = SendMessageTimeoutW(
@@ -315,17 +315,17 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 			// SetForegroundWindow(::hWnd);
 			// SetActiveWindow(::hWnd);
 
-			// SetForegroundWindow(::hWnd);
-			// SetCapture(::hWnd);
-			// SetFocus(::hWnd);
-			// SetActiveWindow(::hWnd);
-			// EnableWindow(::hWnd, TRUE);
-			// ShowWindow(::hWnd, 0); // hide
-			// ShowWindow(::hWnd, 9); // show
-			// BringWindowToTop(::hWnd);
+			SetForegroundWindow(::hWnd);
+			SetCapture(::hWnd);
+			SetFocus(::hWnd);
+			SetActiveWindow(::hWnd);
+			EnableWindow(::hWnd, TRUE);
+			ShowWindow(::hWnd, 0); // hide
+			ShowWindow(::hWnd, 9); // show
+			BringWindowToTop(::hWnd);
 
 			// SetWindowPos(::hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW || SWP_NOMOVE || SWP_NOSIZE);
-		// }
+		}
 
 		// remove all attachments to the foreground window
         // (we don't need it until next tick)
@@ -335,9 +335,11 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 	} else if (!IsProcessRunning(::processHandle)) {
     // step 4. process is closed! kill everything!
 
+		DWORD fgProcessId;
+		DWORD fgThreadId = GetWindowThreadProcessId(hWnd, &fgProcessId);
 		AttachThreadInput(::processThreadId, ::currentThreadId, false);
 		AttachThreadInput(::currentThreadId, fgThreadId, false);
-		
+
 		CloseHandle(::processHandle);
 
 		// the window is no longer open

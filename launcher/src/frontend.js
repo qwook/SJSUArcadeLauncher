@@ -163,9 +163,9 @@ function insertGame(data) {
     else
         gameshow.addClass("featured");
 
-    $(".screenshot", gameshow).css({
-        "background-image": "url(" + data.screenshot + ")"
-    });
+    $(".screenshot", gameshow).css(
+        "background-image", "url(" + data.screenshot + ")"
+    );
 
     $(".description", gameshow).text(data.description || "");
 
