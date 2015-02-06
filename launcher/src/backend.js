@@ -13,7 +13,8 @@
 try {
 
 // Check if we're on windows
-var has_windows = /^win/.test(process.platform);
+//var has_windows = /^win/.test(process.platform);
+var has_windows = true;
 
 // using the require() function will break in browsers
 // this file will exit with an error if it runs in the browser
@@ -128,10 +129,10 @@ function loadAllGames() {
 }
 
 function loadPresetGame(id) {
-	if (!config.presetList) {
+	if (!config.presetList || config.presetList[id]) {
 		loadAllGames();
 	}
-
+	
     var allowed = config.presetList[id].gameList;
 
     // load games in config file
@@ -392,7 +393,9 @@ setPresetCallback(function() {
 // }
 
 var saveFile = getSaveFile();
-if (saveFile.presetId) {
+console.log(saveFile);
+if (saveFile.presetId != undefined) {
+	console.log(config.presetList[saveFile.presetId]);
 	loadPresetGame(saveFile.presetId);
 } else {
 	loadAllGames();
