@@ -148,6 +148,7 @@ void Start(const FunctionCallbackInfo<Value>& args) {
 
 void Tick(const FunctionCallbackInfo<Value>& args) {
 	if (clock() <= ::startTime) {return;}
+	if (!running) {return;}
 
 	::startTime = clock() + 1;
 
@@ -218,7 +219,7 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 								::hWnd = hWnd;
 								CallFoundCallback();
 								CloseHandle(snapshot);
-								SetWindowPos(::hWnd, NULL, 0, 0, size.width, size.height, SWP_NOMOVE | SWP_NOSIZE);
+								// SetWindowPos(::hWnd, NULL, 0, 0, size.width, size.height, SWP_NOMOVE | SWP_NOSIZE);
 								return;
 							}
 						}
@@ -290,7 +291,7 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 
 		// check if our window is in focus
 		// if it isn't, then bring it to focus
-		if (GetForegroundWindow() != ::hWnd) {
+		if (GetFocus() != ::hWnd) {
             // ping the window to check if it's responding
 			// DWORD_PTR result;
 			// LRESULT hung = SendMessageTimeoutW(
