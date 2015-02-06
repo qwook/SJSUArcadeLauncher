@@ -320,8 +320,8 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 			SetFocus(::hWnd);
 			SetActiveWindow(::hWnd);
 			EnableWindow(::hWnd, TRUE);
-			ShowWindow(::hWnd, 0); // hide
-			ShowWindow(::hWnd, 9); // show
+			// ShowWindow(::hWnd, 0); // hide
+			// ShowWindow(::hWnd, 9); // show
 			BringWindowToTop(::hWnd);
 
 			// SetWindowPos(::hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW || SWP_NOMOVE || SWP_NOSIZE);
