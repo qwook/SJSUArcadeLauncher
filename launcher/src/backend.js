@@ -82,7 +82,7 @@ function getSaveFile() {
 }
 
 function saveSaveFile(statistics) {
-    fs.writeFileSync(SAVE_FILE, "statistics="+JSON.stringify(statistics));
+    fs.writeFileSync(SAVE_FILE, "savefile="+JSON.stringify(statistics));
 }
 
 function addPlayTime(game, time) {
