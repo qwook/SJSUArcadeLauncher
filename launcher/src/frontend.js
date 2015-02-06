@@ -193,6 +193,8 @@ function setPresetCallback(cb) {
 }
 
 $(document).keydown(function(e) {
+    if (launching) { return; }
+
     switch (e.keyCode) {
         // + button
         case 187:

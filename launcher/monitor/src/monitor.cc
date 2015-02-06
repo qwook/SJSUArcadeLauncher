@@ -202,19 +202,25 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 							// sprintf(test, "%d == %d, %d == %d", size.width, screenSize.width, size.height, screenSize.height);
 							// MessageBox (NULL, test, test, MB_OK);
 
-							std::stringstream stream;
-							stream << screenSize.width << " " << size.width << " " << screenSize.height << " " << size.height;
-							LogCallback(stream.str());
+							// std::stringstream stream;
+							// stream << screenSize.width << " " << size.width << " " << screenSize.height << " " << size.height;
+							// LogCallback(stream.str());
 
-							// if (size.width == screenSize.width && size.height == screenSize.height) {
+							if (size.width == screenSize.width && size.height == screenSize.height) {
+								DWORD fgProcessId;
+								DWORD fgThreadId = GetWindowThreadProcessId(GetForegroundWindow(), &fgProcessId);
+								AttachThreadInput(::currentThreadId, fgThreadId, true);
+								AttachThreadInput(::processThreadId, ::currentThreadId, true);
+
 								::foundProcess = true;
 								::foundhWnd = true;
 								::processThreadId = threadId;
 								::hWnd = hWnd;
 								CallFoundCallback();
 								CloseHandle(snapshot);
+								SetWindowPos(::hWnd, NULL, 0, 0, size.width, size.height, SWP_NOMOVE | SWP_NOSIZE);
 								return;
-							// }
+							}
 						}
 					}
 
@@ -232,7 +238,7 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 
 	    // Clean up
 	    CloseHandle(snapshot);
-	} else if (!::foundhWnd && IsProcessRunning(::processHandle)) {
+	// } else if (!::foundhWnd && IsProcessRunning(::processHandle)) {
 	// step 2. so we found the process,
     // now we need to find the window that goes with the process.
 
@@ -277,14 +283,14 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 
         // attach to the foreground window (this ensures that
         // we have permission to bring windows into focus)
-		// DWORD fgProcessId;
-		// DWORD fgThreadId = GetWindowThreadProcessId(GetForegroundWindow(), &fgProcessId);
+		DWORD fgProcessId;
+		DWORD fgThreadId = GetWindowThreadProcessId(GetForegroundWindow(), &fgProcessId);
 		// AttachThreadInput(::currentThreadId, fgThreadId, true);
 		// AttachThreadInput(::processThreadId, ::currentThreadId, true);
 
 		// check if our window is in focus
 		// if it isn't, then bring it to focus
-		if (GetForegroundWindow() != ::hWnd) {
+		// if (GetForegroundWindow() != ::hWnd) {
             // ping the window to check if it's responding
 			// DWORD_PTR result;
 			// LRESULT hung = SendMessageTimeoutW(
@@ -319,7 +325,7 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 			// BringWindowToTop(::hWnd);
 
 			// SetWindowPos(::hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW || SWP_NOMOVE || SWP_NOSIZE);
-		}
+		// }
 
 		// remove all attachments to the foreground window
         // (we don't need it until next tick)
@@ -329,6 +335,9 @@ void Tick(const FunctionCallbackInfo<Value>& args) {
 	} else if (!IsProcessRunning(::processHandle)) {
     // step 4. process is closed! kill everything!
 
+		AttachThreadInput(::processThreadId, ::currentThreadId, false);
+		AttachThreadInput(::currentThreadId, fgThreadId, false);
+		
 		CloseHandle(::processHandle);
 
 		// the window is no longer open
