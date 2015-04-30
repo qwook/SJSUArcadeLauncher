@@ -110,6 +110,28 @@ function addPlayCount(game) {
     saveGameStatistics(statistics);
 }
 
+function logTime(game, startTime, endTime) {
+    // yup. it's ugly. whatever :-(
+
+    var today = new Date();
+    var PLAY_LOGS = path.join(WORKING_DIRECTORY, "playlogs_" + today.toDateString().replace(/[\W]+/g, "_") + ".json");
+    var data = JSON.stringify(
+    {
+        game: game,
+        startTimeStamp: startTime,
+        startDate: new Date(),
+        endTimeStamp: endTime
+    });
+
+    if (!fs.existsSync(PLAY_LOGS)) {
+        fs.writeFileSync(PLAY_LOGS, 'play_logs=[\n' + data + '\n]');
+    } else {
+        var size = fs.statSync(PLAY_LOGS).size;
+        fs.truncateSync(PLAY_LOGS, size-2);
+        fs.appendFileSync(PLAY_LOGS, ',\n' + data + "\n]");
+    }
+}
+
 function insertGameFromInfo(gameInfo) {
     insertGame({
         "name": gameInfo.gameName,
@@ -178,243 +200,187 @@ setInterval(function() {
 	}
 }, 100);
 
-// if (has_windows) {
-    setLaunchGameCallback(function(data) {
-        var found = false;
+setLaunchGameCallback(function(data) {
+    var found = false;
 
-        var gameTimeStart = (new Date()).getTime() / 60000;
+    var timeStartStamp = (new Date()).getTime();
+    var gameTimeStart = timeStartStamp / 60000;
 
-        addPlayCount(data.id);
+    addPlayCount(data.id);
 
-        win.setAlwaysOnTop(false);
+    win.setAlwaysOnTop(false);
 
-        console.log(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe));
+    console.log(path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe));
 
-        // Autohotkey is stupid. We'll replace it one day.
-        var ahk;
-        if (data.autohotkey != undefined && data.autohotkey.length > 0) {
-            ahk = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.autohotkey) + "\""
-            , function (error, stdout, stderr){
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
-                if (error !== null) {
-                  console.log('exec error: ' + error);
-                }
-            });
-            console.log("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.autohotkey) + "\"");
-        }
+    // Autohotkey is stupid. We'll replace it one day.
+    var ahk;
+    if (data.autohotkey != undefined && data.autohotkey.length > 0) {
+        ahk = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.autohotkey) + "\""
+        , function (error, stdout, stderr){
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            if (error !== null) {
+              console.log('exec error: ' + error);
+            }
+        });
+        console.log("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.autohotkey) + "\"");
+    }
 
-        if (data.useLegacyMonitor) {
+    // Method 1 of monitoring game
+    if (data.useLegacyMonitor) {
 
+        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
+        playingGame = true;
+	        
+    	var monitor = new Monitor(path.basename(data.exe).toUpperCase());
+
+    	var timeOut = setTimeout(function() {
+            reset();
+			playBackgroundMusicBackend();
+            win.setAlwaysOnTop(true);
+            win.focus();
+
+            found = false;
+
+            var currentTime = (new Date()).getTime() / 60000;
+            var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+
+            // save to the statistics the game time.
+            addPlayTime(data.id, gamePlayTime);
+            logTime(data.id, timeStartStamp, (new Date()).getTime());
+
+            if (ahk != undefined) {
+                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+            }
+
+            cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.exe)]);
+    	}, 25000);
+
+        monitor.setCallbacks(
+
+            // on game loading (every tick)
+            function() {
+            },
+            // on game loaded
+            function() {
+				stopBackgroundMusic();
+
+                found = true;
+                win.setAlwaysOnTop(false);
+                win.blur();
+				
+                timeStartStamp = (new Date()).getTime();
+                gameTimeStart = timeStartStamp / 60000
+
+                clearTimeout(timeOut);
+            },
+            // on game closed
+            function () {
+            	playingGame = false;
+                monitor.kill();
+                win.minimize();
+
+            	setTimeout(function() {
+
+                    reset();
+					playBackgroundMusicBackend();
+                    win.setAlwaysOnTop(true);
+                    win.focus();
+
+                    found = false;
+
+                    var currentTime = (new Date()).getTime() / 60000;
+                    var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
+
+                    // save to the statistics the game time.
+                    addPlayTime(data.id, gamePlayTime);
+                    logTime(data.id, timeStartStamp, (new Date()).getTime());
+
+                    if (ahk != undefined) {
+                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+                    }
+
+            	}, 500);
+            }
+        )
+
+        monitor.start();
+
+    // Method 2 of monitoring game
+    } else {
+
+        try {
 	        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
 	        playingGame = true;
-		        
-        	var monitor = new Monitor(path.basename(data.exe).toUpperCase());
 
-        	var timeOut = setTimeout(function() {
-                reset();
-				playBackgroundMusicBackend();
-                win.setAlwaysOnTop(true);
-                win.focus();
+	        // spawned the child process
+			stopBackgroundMusic();
 
-                found = false;
+	        found = true;
+	        win.setAlwaysOnTop(false);
+	        win.blur();
 
-                var currentTime = (new Date()).getTime() / 60000;
-                var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
-
-                // save to the statistics the game time.
-                addPlayTime(data.id, gamePlayTime);
-
-                if (ahk != undefined) {
-                    cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-                }
-
-                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.exe)]);
-        	}, 25000);
-
+	        var blurTimeout;
+			
+        	var monitor = new Monitor(path.basename(data.exe));
             monitor.setCallbacks(
-
                 // on game loading (every tick)
                 function() {
                 },
                 // on game loaded
                 function() {
-					stopBackgroundMusic();
-
-                    found = true;
-                    win.setAlwaysOnTop(false);
-                    win.blur();
-					
-                    gameTimeStart = (new Date()).getTime() / 60000
-
-                    clearTimeout(timeOut);
+                	blurTimeout = setTimeout(function() {
+			        	// win.minimize();
+			        }, 100);
                 },
                 // on game closed
                 function () {
-                	playingGame = false;
-	                monitor.kill();
-                    win.minimize();
-
-                	setTimeout(function() {
-
-	                    reset();
-						playBackgroundMusicBackend();
-	                    win.setAlwaysOnTop(true);
-	                    win.focus();
-
-	                    found = false;
-
-	                    var currentTime = (new Date()).getTime() / 60000;
-	                    var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
-
-	                    // save to the statistics the game time.
-	                    addPlayTime(data.id, gamePlayTime);
-
-	                    if (ahk != undefined) {
-	                        cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-	                    }
-
-                	}, 500);
+		            clearTimeout(blurTimeout);
                 }
             )
-
             monitor.start();
 
+	        gameTimeStart = (new Date()).getTime() / 60000
 
-        } else {
+	        childProcess.on('exit', function() {
+	        	playingGame = false;
+                monitor.kill();
+                win.minimize();
 
-	        try {
-		        var childProcess = cp.exec("\"" + path.join(WORKING_DIRECTORY, "games-for-launcher", data.path, data.exe) + "\"");
-		        playingGame = true;
+                setTimeout(function() {
 
-		        // spawned the child process
-				stopBackgroundMusic();
+		            reset();
+					playBackgroundMusicBackend();
+		            win.setAlwaysOnTop(true);
+		            win.focus();
+		            clearTimeout(blurTimeout);
+		            // clearTimeout(timeOut);
+		            found = false;
 
-		        found = true;
-		        win.setAlwaysOnTop(false);
-		        win.blur();
+		            var currentTime = (new Date()).getTime() / 60000;
+		            var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
 
-		        var blurTimeout;
-				
-	        	var monitor = new Monitor(path.basename(data.exe));
-	            monitor.setCallbacks(
-	                // on game loading (every tick)
-	                function() {
-	                },
-	                // on game loaded
-	                function() {
-	                	blurTimeout = setTimeout(function() {
-				        	// win.minimize();
-				        }, 100);
-	                },
-	                // on game closed
-	                function () {
-			            clearTimeout(blurTimeout);
-	                }
-	            )
-	            monitor.start();
+		            // save to the statistics the game time.
+		            addPlayTime(data.id, gamePlayTime);
+                    logTime(data.id, timeStartStamp, (new Date()).getTime());
 
-		        gameTimeStart = (new Date()).getTime() / 60000
+		            if (ahk != undefined) {
+		                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
+		                console.log(['/F', '/IM', path.basename(data.autohotkey)]);
+		            }
 
-		        childProcess.on('exit', function() {
-		        	playingGame = false;
-	                monitor.kill();
-                    win.minimize();
+                }, 500)
+	        });
+	    } catch (e) {
+            reset();
+			playBackgroundMusicBackend();
+            win.setAlwaysOnTop(true);
+            win.focus();
+	    }
 
-	                setTimeout(function() {
+    }
 
-			            reset();
-						playBackgroundMusicBackend();
-			            win.setAlwaysOnTop(true);
-			            win.focus();
-			            clearTimeout(blurTimeout);
-			            // clearTimeout(timeOut);
-			            found = false;
-
-			            var currentTime = (new Date()).getTime() / 60000;
-			            var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
-
-			            // save to the statistics the game time.
-			            addPlayTime(data.id, gamePlayTime);
-
-			            if (ahk != undefined) {
-			                cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-			                console.log(['/F', '/IM', path.basename(data.autohotkey)]);
-			            }
-
-	                }, 500)
-		        });
-		    } catch (e) {
-	            reset();
-				playBackgroundMusicBackend();
-	            win.setAlwaysOnTop(true);
-	            win.focus();
-		    }
-
-        }
-
-        // setTimeout(function() {
-
-            // I'm giving this thing 10 seconds to load...
-     //        var timeOut = setTimeout(function() {
-     //            if (found == false) {
-     //                monitor.kill();
-
-     //                reset();
-					// playBackgroundMusicBackend();
-     //                win.focus();
-     //                win.setAlwaysOnTop(true);
-     //                found = false;
-
-     //                if (ahk != undefined) {
-     //                    cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-     //                    console.log(['/F', '/IM', path.basename(data.autohotkey)]);
-     //                }
-     //            }
-     //        }, 10000);
-
-     //        monitor.setCallbacks(
-
-     //            // on game loading (every tick)
-     //            function() {
-     //                // console.log("sup loading");
-     //            },
-     //            // on game loaded
-     //            function() {
-					// stopBackgroundMusic();
-
-     //                found = true;
-     //                win.setAlwaysOnTop(false);
-     //                // win.minimize();
-     //                // clearTimeout(timeOut);
-					
-     //                gameTimeStart = (new Date()).getTime() / 60000
-     //            },
-     //            // on game closed
-     //            function () {
-     //                reset();
-					// playBackgroundMusicBackend();
-     //                win.setAlwaysOnTop(true);
-     //                win.focus();
-     //                // clearTimeout(timeOut);
-     //                found = false;
-
-     //                var currentTime = (new Date()).getTime() / 60000;
-     //                var gamePlayTime = Math.floor((currentTime - gameTimeStart)*100)/100;
-
-     //                // save to the statistics the game time.
-     //                addPlayTime(data.id, gamePlayTime);
-
-     //                if (ahk != undefined) {
-     //                    cp.spawn('Taskkill', ['/F', '/IM', path.basename(data.autohotkey)]);
-     //                    console.log(['/F', '/IM', path.basename(data.autohotkey)]);
-     //                }
-     //            }
-     //        )
-     //        monitor.start();
-        // }, 1000);
-    })
-// }
+})
 
 var saveFile = getSaveFile();
 
