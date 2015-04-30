@@ -1,3 +1,4 @@
 [submodule "games-for-launcher"]
 	path = games-for-launcher
 	url = https://github.com/ruby-yacht/games-for-launcher
+	branch = master
